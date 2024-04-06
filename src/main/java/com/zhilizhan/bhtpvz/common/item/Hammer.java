@@ -1,9 +1,11 @@
 package com.zhilizhan.bhtpvz.common.item;
 
 import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
+import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,13 +35,15 @@ public class Hammer extends TieredItem {
             //如果没有CD就执行一下语句
             //对PVZ僵尸照成20点伤害
             interactionTarget.hurt(DamageSource.playerAttack(player), 20.0F);
+            player.level.playSound(null, player.blockPosition(), SoundRegister.HAMMER_BONK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            //播放音效
             //减少锤子5点耐久
             stack.hurtAndBreak(5, interactionTarget, (arg) -> arg.broadcastBreakEvent(player.getUsedItemHand()));
             //如果是生存模式添加30tick的CD
             if (!player.isCreative()) {
                 player.getCooldowns().addCooldown(BHTPvZItems.HAMMER.get(), 30);
             }
-        }
+           }
         return InteractionResult.SUCCESS;
     }
 
