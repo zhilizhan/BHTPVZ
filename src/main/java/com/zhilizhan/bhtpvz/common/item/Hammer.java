@@ -2,12 +2,14 @@ package com.zhilizhan.bhtpvz.common.item;
 
 import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
+import com.zhilizhan.bhtpvz.common.sound.BHTPvZSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +26,13 @@ public class Hammer extends TieredItem {
     public Hammer(Properties properties) {
         super(Tiers.WOOD, properties);
     }
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        player.getCooldowns().addCooldown(BHTPvZItems.HAMMER.get(), 10);
+        player.level.playSound(null, player.blockPosition(), BHTPvZSound.BUZZER.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
+        return InteractionResultHolder.success(player.getItemInHand(usedHand));
+    }
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
         //检查是否有CD
@@ -43,7 +51,8 @@ public class Hammer extends TieredItem {
             if (!player.isCreative()) {
                 player.getCooldowns().addCooldown(BHTPvZItems.HAMMER.get(), 30);
             }
-           }
+            player.level.playSound(null, player.blockPosition(), BHTPvZSound.BUZZER.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+        }
         return InteractionResult.SUCCESS;
     }
 

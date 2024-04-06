@@ -3,6 +3,7 @@ package com.zhilizhan.bhtpvz.common.block;
 import com.hungteen.pvz.common.block.special.FlowerPotBlock;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.zhilizhan.bhtpvz.common.item.BHTPvZItems;
+import com.zhilizhan.bhtpvz.common.sound.BHTPvZSound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
@@ -25,7 +26,7 @@ public class ChinaWareFlowerPotBlock extends FlowerPotBlock {
                 player.getCooldowns().addCooldown(BHTPvZItems.HAMMER.get(), 30);
                if(player instanceof ServerPlayer)player.getMainHandItem().hurt(5,level.random, (ServerPlayer) player);
            }
-           player.level.playSound(null, player.blockPosition(), SoundRegister.HAMMER_BONK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+           player.level.playSound(null, player.blockPosition(), BHTPvZSound.BUZZER.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
            this.playDelaySound(pos.getX(),pos.getY(),pos.getZ(), SoundRegister.VASE_BREAKING.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
             return InteractionResult.SUCCESS;
@@ -34,7 +35,7 @@ public class ChinaWareFlowerPotBlock extends FlowerPotBlock {
     }
     public void playDelaySound(double x, double y, double z, SoundEvent sound, SoundSource category, float volume, float pitch) {
         SimpleSoundInstance simplesound = new SimpleSoundInstance(sound, category, volume, pitch, x, y, z);
-        this.minecraft.getSoundManager().playDelayed(simplesound, (int)(20.0));
+        this.minecraft.getSoundManager().playDelayed(simplesound, (int)(10.0));
     }
 
 }

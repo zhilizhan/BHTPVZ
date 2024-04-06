@@ -9,6 +9,7 @@ import com.zhilizhan.bhtpvz.common.impl.BHTPvZPlants;
 import com.zhilizhan.bhtpvz.common.impl.BHTPvZSkill;
 import com.zhilizhan.bhtpvz.common.item.BHTPvZItems;
 import com.zhilizhan.bhtpvz.common.item.BHTPvZSpawnEggItem;
+import com.zhilizhan.bhtpvz.common.sound.BHTPvZSound;
 import com.zhilizhan.bhtpvz.common.world.DecorationGenerate;
 import com.zhilizhan.bhtpvz.common.world.biome.BHTPvZBiomes;
 import net.minecraft.resources.ResourceLocation;
@@ -48,6 +49,7 @@ public class BHTPvZ {
         MinecraftForge.EVENT_BUS.register(LivingEvents.class);
         bus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(bus);
+        BHTPvZSound.SOUNDS.register(bus);
         //为原始蘑菇牛注册属性
         bus.addListener((EntityAttributeCreationEvent e) -> e.put(BHTPvZEntityTypes.ORIGIN_MOOB.get(), OriginMoobEntity.createAttributes().build()));
         bus2.addListener(EventPriority.HIGH, DecorationGenerate::addOresToBiomes);
