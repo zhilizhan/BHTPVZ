@@ -46,7 +46,7 @@ public class BHTPvZ {
         BHTPvZBiomes.BIOMES.register(bus);
         BHTPvZPlants.register();
         BHTPvZSkill.SkillType.register();
-        MinecraftForge.EVENT_BUS.register(LivingEvents.class);
+
         bus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(bus);
         BHTPvZSound.SOUNDS.register(bus);
@@ -55,7 +55,8 @@ public class BHTPvZ {
         bus2.addListener(EventPriority.HIGH, DecorationGenerate::addOresToBiomes);
         bus2.addListener(EventPriority.HIGH, DecorationGenerate::addTreesToBiomes);
         bus2.addListener(EventPriority.HIGH, DecorationGenerate::addBlocksToBiomes);
-
+        bus2.addListener(LivingEvents::PlayerRightClickItem);
+        bus2.addListener(LivingEvents::playerClick);
     }
 
     // 创造物品栏
