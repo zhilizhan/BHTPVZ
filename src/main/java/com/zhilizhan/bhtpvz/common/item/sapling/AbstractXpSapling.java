@@ -32,14 +32,13 @@ public abstract class AbstractXpSapling extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
-        if(livingEntity instanceof Player) {
-            Player player = (Player) livingEntity;
+        if(livingEntity instanceof Player player) {
             if(!level.isClientSide) {
                 player.getCapability(CapabilityHandler.PLAYER_DATA_CAPABILITY).ifPresent((l) -> {
                     int amount = amount();
                     {
                         l.getPlayerData().addResource(Resources.TREE_XP, amount);
-                        PlayerUtil.playClientSound(player, SoundEvents.EXPERIENCE_BOTTLE_THROW);
+                        PlayerUtil.playClientSound(player, SoundEvents.EXPERIENCE_ORB_PICKUP);
                         if(!player.isCreative()) {
                             stack.shrink(1);
                         }}
@@ -48,6 +47,7 @@ public abstract class AbstractXpSapling extends Item {
         }
         return stack;
     }
+
     protected int amount(){
         return 200;
     }

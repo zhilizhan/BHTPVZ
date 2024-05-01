@@ -1,9 +1,10 @@
 {
   "required": true,
   "package": "com.zhilizhan.bhtpvz.common.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "bhtpvz.refmap.json",
   "mixins": [
+    "LevelMixin",
     "PeaGunItemMixin",
     "PlantCardItemMixin",
     "PlayerEventHandlerMixin",
@@ -12,14 +13,13 @@
     "optional.PuffshroomEntityMixin",
     "optional.ScaredyShroomEntityMixin"
   ],
+  "server": [
+  ],
   "client": [
     "ClientProxyMixin",
     "LivingEntityRenderMixin",
     "PVZPlantRenderMixin",
     "optional.PuffShroomRenderMixin"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "minVersion": "0.8"
+  "minVersion": "0.8.0"
 }

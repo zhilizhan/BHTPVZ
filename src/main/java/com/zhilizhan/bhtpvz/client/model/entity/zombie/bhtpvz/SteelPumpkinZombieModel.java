@@ -1,7 +1,7 @@
 package com.zhilizhan.bhtpvz.client.model.entity.zombie.bhtpvz;
 
-import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.SteelPumpkinZombieEntity;
 import com.hungteen.pvz.client.model.entity.zombie.PVZZombieModel;
+import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.SteelPumpkinZombieEntity;
 import net.minecraft.client.model.geom.ModelPart;
 
 import java.util.Optional;
@@ -16,7 +16,7 @@ public class SteelPumpkinZombieModel extends PVZZombieModel<SteelPumpkinZombieEn
     private final ModelPart left_hand;
     private final ModelPart right_hand;
     private final ModelPart head;
-    private final ModelPart helmet;
+    private final ModelPart teeth_r1;
     private final ModelPart ladder;
     private final ModelPart floor;
     private final ModelPart getZombieLeftHand;
@@ -32,101 +32,109 @@ public class SteelPumpkinZombieModel extends PVZZombieModel<SteelPumpkinZombieEn
         texHeight = 256;
 
         total = new ModelPart(this);
-        total.setPos(0.0f, 24.0f, 0.0f);
+        total.setPos(0.0F, 24.0F, 0.0F);
+
 
         right_leg = new ModelPart(this);
-        right_leg.setPos(-4.0f, -23.0f, 0.0f);
+        right_leg.setPos(-4.0F, -23.0F, 0.0F);
         total.addChild(right_leg);
-        right_leg.texOffs(44, 0).addBox(-4.0f, -1.0f, -4.0f, 8.0f, 24.0f, 8.0f, 0.0f, false);
+        right_leg.texOffs(44, 0).addBox(-4.0F, -1.0F, -4.0F, 8.0F, 24.0F, 8.0F, 0.0F, false);
 
         left_leg = new ModelPart(this);
-        left_leg.setPos(4.0f, -23.0f, 0.0f);
+        left_leg.setPos(4.0F, -23.0F, 0.0F);
         total.addChild(left_leg);
-        left_leg.texOffs(0, 0).addBox(-4.0f, -1.0f, -4.0f, 8.0f, 24.0f, 8.0f, 0.0f, false);
+        left_leg.texOffs(0, 0).addBox(-4.0F, -1.0F, -4.0F, 8.0F, 24.0F, 8.0F, 0.0F, false);
 
         up = new ModelPart(this);
-        up.setPos(0.0f, 0.0f, 0.0f);
+        up.setPos(0.0F, 0.0F, 0.0F);
         total.addChild(up);
 
+
         body = new ModelPart(this);
-        body.setPos(0.0f, -23.0f, 0.0f);
+        body.setPos(0.0F, -23.0F, 0.0F);
         up.addChild(body);
-        body.texOffs(0, 41).addBox(-8.0f, -25.0f, -4.0f, 16.0f, 24.0f, 8.0f, 0.0f, false);
+        body.texOffs(0, 41).addBox(-8.0F, -25.0F, -4.0F, 16.0F, 24.0F, 8.0F, 0.0F, false);
 
         hammer = new ModelPart(this);
-        hammer.setPos(9.0f, -1.0f, 0.5f);
+        hammer.setPos(9.0F, -1.0F, 0.5F);
         body.addChild(hammer);
-        setRotationAngle(hammer, 0.4363f, 0.0f, 0.0f);
+        setRotationAngle(hammer, 0.4363F, 0.0F, 0.0F);
+        hammer.texOffs(0, 163).addBox(-1.0F, -6.0F, -0.5F, 1.0F, 9.0F, 1.0F, 0.0F, false);
+        hammer.texOffs(0, 175).addBox(-1.0F, 3.0F, -0.5F, 1.0F, 1.0F, 1.0F, 0.2F, false);
+        hammer.texOffs(0, 179).addBox(-1.0F, -5.75F, -3.5F, 1.0F, 1.0F, 1.0F, 0.4F, false);
+        hammer.texOffs(6, 163).addBox(-1.0F, -5.75F, -3.5F, 1.0F, 1.0F, 5.0F, 0.1F, false);
 
         left_hand = new ModelPart(this);
-        left_hand.setPos(8.0f, -48.0f, 0.0f);
+        left_hand.setPos(8.0F, -48.0F, 0.0F);
         up.addChild(left_hand);
-        setRotationAngle(left_hand, -0.8727f, 0.0f, 0.0f);
-        left_hand.texOffs(96, 60).addBox(0.0f, 0.0f, -4.0f, 8.0f, 24.0f, 8.0f, 0.0f, false);
+        setRotationAngle(left_hand, -0.8727F, 0.0F, 0.0F);
+        left_hand.texOffs(96, 60).addBox(0.0F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F, 0.0F, false);
 
         right_hand = new ModelPart(this);
-        right_hand.setPos(-8.0f, -48.0f, 0.0f);
+        right_hand.setPos(-8.0F, -48.0F, 0.0F);
         up.addChild(right_hand);
-        setRotationAngle(right_hand, -0.8727f, 0.0f, 0.0f);
-        right_hand.texOffs(96, 0).addBox(-8.0f, 0.0f, -4.0f, 8.0f, 24.0f, 8.0f, 0.0f, false);
+        setRotationAngle(right_hand, -0.8727F, 0.0F, 0.0F);
+        right_hand.texOffs(96, 0).addBox(-8.0F, 0.0F, -4.0F, 8.0F, 24.0F, 8.0F, 0.0F, false);
 
         head = new ModelPart(this);
-        head.setPos(0.0f, -48.0f, 0.0f);
+        head.setPos(0.0F, -48.0F, 0.0F);
         up.addChild(head);
-        head.texOffs(16, 96).addBox(-8.0f, -16.0f, -8.0f, 16.0f, 16.0f, 16.0f, 0.0f, false);
 
-        helmet = new ModelPart(this);
-        helmet.setPos(0.0f, 19.0f, 0.0f);
-        head.addChild(helmet);
-        helmet.texOffs(196, 240).addBox(-6.0f, -38.0f, -9.0f, 15.0f, 1.0f, 15.0f, 0.0f, false);
-        helmet.texOffs(158, 206).addBox(-16.0f, -36.0f, -16.0f, 32.0f, 16.0f, 1.0f, 0.0f, false);
-        helmet.texOffs(190, 160).addBox(-16.0f, -36.0f, 15.0f, 32.0f, 16.0f, 1.0f, 0.0f, false);
-        helmet.texOffs(161, 161).addBox(-16.0f, -36.0f, -15.0f, 1.0f, 16.0f, 30.0f, 0.0f, false);
-        helmet.texOffs(194, 132).addBox(15.0f, -36.0f, -15.0f, 1.0f, 16.0f, 30.0f, 0.0f, false);
-        helmet.texOffs(128, 130).addBox(-16.0f, -20.0f, -16.0f, 32.0f, 1.0f, 32.0f, 0.0f, false);
-        helmet.texOffs(131, 130).addBox(-15.0f, -37.0f, -15.0f, 30.0f, 1.0f, 30.0f, 0.0f, false);
-        helmet.texOffs(167, 244).addBox(-2.0f, -42.5f, -5.0f, 7.0f, 5.0f, 7.0f, 0.0f, false);
+
+        teeth_r1 = new ModelPart(this);
+        teeth_r1.setPos(0.0F, 48.0F, 0.0F);
+        head.addChild(teeth_r1);
+        setRotationAngle(teeth_r1, 0.0F, 1.5708F, 0.0F);
+        teeth_r1.texOffs(129, 26).addBox(9.0F, -54.5F, -8.5F, 1.0F, 6.0F, 17.0F, 1.0F, false);
+        teeth_r1.texOffs(128, 0).addBox(-7.5F, -58.5F, -8.5F, 17.0F, 10.0F, 17.0F, 1.0F, false);
+        teeth_r1.texOffs(128, 50).addBox(-7.0F, -58.5F, -8.0F, 16.0F, 9.0F, 16.0F, 1.0F, false);
 
         ladder = new ModelPart(this);
-        ladder.setPos(0.0f, -38.0f, -20.0f);
+        ladder.setPos(0.0F, -38.0F, -20.0F);
         up.addChild(ladder);
-        setRotationAngle(ladder, 0.2182f, 0.0f, 0.0f);
-        ladder.texOffs(15, 202).addBox(-12.0f, -22.0f, -2.0f, 3.0f, 50.0f, 4.0f, 0.1f, false);
-        ladder.texOffs(0, 202).addBox(9.0f, -22.0f, -2.0f, 3.0f, 50.0f, 4.0f, 0.1f, false);
-        ladder.texOffs(0, 194).addBox(8.0f, 28.0f, -3.0f, 5.0f, 1.0f, 6.0f, 0.0f, false);
-        ladder.texOffs(0, 185).addBox(-13.0f, 28.0f, -3.0f, 5.0f, 1.0f, 6.0f, 0.0f, false);
+        setRotationAngle(ladder, 0.2182F, 0.0F, 0.0F);
+        ladder.texOffs(15, 202).addBox(-12.0F, -22.0F, -2.0F, 3.0F, 50.0F, 4.0F, 0.1F, false);
+        ladder.texOffs(0, 202).addBox(9.0F, -22.0F, -2.0F, 3.0F, 50.0F, 4.0F, 0.1F, false);
+        ladder.texOffs(0, 194).addBox(8.0F, 28.0F, -3.0F, 5.0F, 1.0F, 6.0F, 0.0F, false);
+        ladder.texOffs(0, 185).addBox(-13.0F, 28.0F, -3.0F, 5.0F, 1.0F, 6.0F, 0.0F, false);
 
         floor = new ModelPart(this);
-        floor.setPos(0.0f, 0.0f, 0.0f);
+        floor.setPos(0.0F, 0.0F, 0.0F);
         ladder.addChild(floor);
-        floor.texOffs(31, 250).addBox(-9.0f, 20.0f, -2.0f, 18.0f, 2.0f, 4.0f, 0.0f, false);
-        floor.texOffs(31, 242).addBox(-9.0f, 12.0f, -2.0f, 18.0f, 2.0f, 4.0f, 0.0f, false);
-        floor.texOffs(30, 234).addBox(-9.0f, 4.0f, -2.0f, 18.0f, 2.0f, 4.0f, 0.0f, false);
-        floor.texOffs(32, 225).addBox(-9.0f, -4.0f, -2.0f, 18.0f, 2.0f, 4.0f, 0.0f, false);
-        floor.texOffs(30, 217).addBox(-9.0f, -12.0f, -2.0f, 18.0f, 2.0f, 4.0f, 0.0f, false);
+        floor.texOffs(31, 250).addBox(-9.0F, 20.0F, -2.0F, 18.0F, 2.0F, 4.0F, 0.0F, false);
+        floor.texOffs(31, 242).addBox(-9.0F, 12.0F, -2.0F, 18.0F, 2.0F, 4.0F, 0.0F, false);
+        floor.texOffs(30, 234).addBox(-9.0F, 4.0F, -2.0F, 18.0F, 2.0F, 4.0F, 0.0F, false);
+        floor.texOffs(32, 225).addBox(-9.0F, -4.0F, -2.0F, 18.0F, 2.0F, 4.0F, 0.0F, false);
+        floor.texOffs(30, 217).addBox(-9.0F, -12.0F, -2.0F, 18.0F, 2.0F, 4.0F, 0.0F, false);
 
         getZombieLeftHand = new ModelPart(this);
-        getZombieLeftHand.setPos(0.0f, 0.0f, 0.0f);
+        getZombieLeftHand.setPos(0.0F, 0.0F, 0.0F);
+
 
         getZombieRightHand = new ModelPart(this);
-        getZombieRightHand.setPos(0.0f, 0.0f, 0.0f);
+        getZombieRightHand.setPos(0.0F, 0.0F, 0.0F);
+
 
         getZombieLeftLeg = new ModelPart(this);
-        getZombieLeftLeg.setPos(0.0f, 0.0f, 0.0f);
+        getZombieLeftLeg.setPos(0.0F, 0.0F, 0.0F);
+
 
         getZombieRightLeg = new ModelPart(this);
-        getZombieRightLeg.setPos(0.0f, 0.0f, 0.0f);
+        getZombieRightLeg.setPos(0.0F, 0.0F, 0.0F);
+
 
         getZombieHead = new ModelPart(this);
-        getZombieHead.setPos(0.0f, 0.0f, 0.0f);
+        getZombieHead.setPos(0.0F, 0.0F, 0.0F);
+
 
         getZombieUpBody = new ModelPart(this);
-        getZombieUpBody.setPos(0.0f, 0.0f, 0.0f);
+        getZombieUpBody.setPos(0.0F, 0.0F, 0.0F);
+
 
         getZombieWholeBody = new ModelPart(this);
-        getZombieWholeBody.setPos(0.0f, 0.0f, 0.0f);
-    }
+        getZombieWholeBody.setPos(0.0F, 0.0F, 0.0F);
 
+    }
     @Override
     public void updateFreeParts(SteelPumpkinZombieEntity entity) {
         super.updateFreeParts(entity);

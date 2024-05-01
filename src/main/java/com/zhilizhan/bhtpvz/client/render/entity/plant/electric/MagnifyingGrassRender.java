@@ -26,9 +26,9 @@ public class MagnifyingGrassRender  extends PVZPlantRender<MagnifyingGrassEntity
     }
 
     private Vec3 getPosition(LivingEntity livingEntity, double d, float f) {
-        double e = Mth.lerp((double)f, livingEntity.xOld, livingEntity.getX());
-        double g = Mth.lerp((double)f, livingEntity.yOld, livingEntity.getY()) + d;
-        double h = Mth.lerp((double)f, livingEntity.zOld, livingEntity.getZ());
+        double e = Mth.lerp(f, livingEntity.xOld, livingEntity.getX());
+        double g = Mth.lerp(f, livingEntity.yOld, livingEntity.getY()) + d;
+        double h = Mth.lerp(f, livingEntity.zOld, livingEntity.getZ());
         return new Vec3(e, g, h);
     }
     @Override

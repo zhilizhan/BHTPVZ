@@ -56,7 +56,6 @@ public class RedSunRender extends EntityRenderer<RedSunEntity> {
         stack.translate(0.0, 0.10000000149011612, 0.0);
         stack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         stack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
-        float size = 0.4F;
         stack.scale(0.4F, 0.4F, 0.4F);
         VertexConsumer vertexconsumer = bufferSource.getBuffer(RENDER_TYPE);
         PoseStack.Pose posestack$pose = stack.last();
@@ -67,7 +66,7 @@ public class RedSunRender extends EntityRenderer<RedSunEntity> {
         vertex(vertexconsumer, matrix4f, matrix3f, 1.0F, 1.0F, red, green, blue, x - 12.01F * Mth.cos(tick) / 64.0F, y - 12.01F * Mth.sin(tick) / 64.0F, p_114604_, alpha);
         vertex(vertexconsumer, matrix4f, matrix3f, -1.0F, 1.0F, red, green, blue, x - 12.01F * Mth.cos(tick + 1.57F) / 64.0F, y - 12.01F * Mth.sin(tick + 1.57F) / 64.0F, p_114604_, alpha);
         stack.popPose();
-        super.render((RedSunEntity) sun, p_114600_, partialTicks, stack, bufferSource, p_114604_);
+        super.render(sun, p_114600_, partialTicks, stack, bufferSource, p_114604_);
     }
 
     private static void vertex(VertexConsumer p_114609_, Matrix4f p_114610_, Matrix3f p_114611_, float p_114612_, float p_114613_, int p_114614_, int p_114615_, int p_114616_, float p_114617_, float p_114618_, int p_114619_, int alpha) {

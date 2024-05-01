@@ -111,7 +111,7 @@ public class SelfImitaterModel extends PVZPlantModel<SelfImitaterEntity> {
 
     @Override
     public void setupAnim(SelfImitaterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.isAlive()&&entity.startImitat()&&entity.getImitaterChance()>0) {
+        if (entity.isAlive()&&entity.isImitating()&&entity.getImitaterChance()>0) {
             this.total.yRot = ageInTicks / 3.0F;
         }
     }

@@ -1,6 +1,7 @@
 package com.zhilizhan.bhtpvz.common.entity.bullet;
 
 import com.hungteen.pvz.common.entity.bullet.AbstractBulletEntity;
+import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.WorldUtil;
 import com.zhilizhan.bhtpvz.client.particle.BHTPvZParticle;
 import com.zhilizhan.bhtpvz.common.damagesource.BHTPvZEntityDamageSource;
@@ -67,19 +68,14 @@ public class SonicEntity  extends AbstractBulletEntity {
     public void tick() {
         super.tick();
         if (this.level.isClientSide) {
-            int cnt = Math.max(2, Math.min(7, this.getMaxLiveTick() / this.tickCount));
-
-            for(int i = 0; i < cnt; ++i) {
-                WorldUtil.spawnRandomSpeedParticle(this.level, BHTPvZParticle.SONIC_BOOM.get(), this.position(), 0.05F);
-            }
+             WorldUtil.spawnRandomSpeedParticle(this.level, BHTPvZParticle.SONIC_BOOM.get(), this.position(), 0.05F);
         }
-
     }
     private void dealSonicDamage(Entity target) {
-        if (!this.level.isClientSide ) {
+        if (!this.level.isClientSide && target instanceof LivingEntity living && EntityUtil.isEntityValid(target)) {
             target.hurt(BHTPvZEntityDamageSource.sonic(this, this.getThrower()), this.attackDamage);
             if (target instanceof LivingEntity && Math.random()<=0.75F) {
-                ((LivingEntity) target).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120));
+                living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120));
             }
         }
     }
@@ -89,6 +85,6 @@ public class SonicEntity  extends AbstractBulletEntity {
     }
 
     protected float getGravityVelocity() {
-        return 0.0001F;
+        return 0.0F;
     }
 }

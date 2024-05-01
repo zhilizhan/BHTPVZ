@@ -37,6 +37,8 @@
   "item.bhtpvz.dt_cherry_seed": "cherry seed",
   "item.bhtpvz.dt_starfruit_seed": "starfruit seed",
   "item.bhtpvz.goo_pea": "goo pea",
+  "item.bhtpvz.pot_grass": "pot grass",
+
 
   "item.bhtpvz.ice_cabbage_pult_card":"ice cabbage pult card",
   "item.bhtpvz.ice_cabbage_pult_enjoy_card":"ice cabbage pult enjoy card",
@@ -129,6 +131,7 @@
 
 
   "tooltip.bhtpvz.xp_sapling.use": "Eat to gain experience",
+  "tooltip.bhtpvz.wisdom_sapling.use": "eat to gain huge amount experience",
   "tooltip.bhtpvz.token.use": "Use to summon dave",
   "tooltip.bhtpvz.sun_token.use": "Use to summon sunDave",
   "tooltip.bhtpvz.steel_pumpkin_token.use": "Use to summon steelPumpkin",
@@ -251,5 +254,7 @@
 
   "invasion.pvz.lawn_extra": "lawn extra invasion",
   "invasion.pvz.roof_extra": "roof extra invasion",
-  "invasion.pvz.invis_invasion": "invis invasion"
+  "invasion.pvz.invis_invasion": "invis invasion",
+
+  "sound.bhtpvz.buzzer": "Buzzer"
 }

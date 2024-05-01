@@ -2,6 +2,7 @@ package com.zhilizhan.bhtpvz.common.entity.plant.assist;
 
 import com.hungteen.pvz.api.interfaces.ICanBeAttracted;
 import com.hungteen.pvz.api.interfaces.ICanBeCharmed;
+import com.hungteen.pvz.api.interfaces.IHasWheel;
 import com.hungteen.pvz.api.types.IPlantType;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
 import com.hungteen.pvz.common.impl.SkillTypes;
@@ -28,8 +29,8 @@ public class FodderBushEntity extends PVZPlantEntity implements ICanAttract {
     }
 
     public void attract(LivingEntity target) {
-        if (target instanceof Mob) {
-            ((Mob)target).setTarget(this);
+        if (target instanceof Mob mob) {
+            mob.setTarget(this);
         }
     }
 
@@ -43,17 +44,20 @@ public class FodderBushEntity extends PVZPlantEntity implements ICanAttract {
         if (!this.level.isClientSide  && source instanceof PVZEntityDamageSource && ((PVZEntityDamageSource)source).isEatDamage()) {
                 int i = random.nextInt(100);
                 Entity entity = source.getEntity();
-                if (entity instanceof LivingEntity) {
-                    if(i<33 && !((LivingEntity)entity).hasEffect(MobEffects.WEAKNESS)) {
-                        ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, (int) (this.getLife()*8)));
-                      }else if(i<66 && ! ((LivingEntity)entity).hasEffect(MobEffects.MOVEMENT_SLOWDOWN)){
-                        ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,(int) (this.getLife()*8)));
+            if (entity instanceof IHasWheel wheel && i<23) {
+                wheel.spikeWheelBy(this);
+                this.kill();
+            }else if (entity instanceof LivingEntity living) {
+                    if(i<33 && !living.hasEffect(MobEffects.WEAKNESS)) {
+                        living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, (int) (this.getLife()*8)));
+                      }else if(i<66 && ! living.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)){
+                        living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,(int) (this.getLife()*8)));
                     }
                     PVZEntityDamageSource damageSource = BHTPvZEntityDamageSource.bush(this, this);
-                    entity.hurt(damageSource,this.getLife()/4);
+                living.hurt(damageSource,this.getLife()/4);
                 }
-            } else if (source.getEntity() instanceof ICanBeCharmed) {
-                ((ICanBeCharmed)source.getEntity()).onCharmedBy(this);
+            } else if (source.getEntity() instanceof ICanBeCharmed canBeCharmed) {
+                   canBeCharmed.onCharmedBy(this);
             }
 
             EntityUtil.playSound(this, SoundRegister.HYPNO.get());

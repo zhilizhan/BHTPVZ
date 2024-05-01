@@ -70,8 +70,5 @@ public class BHTPvZEntityDamageSource {
     public static PVZEntityDamageSource gooPea(GooPeaEntity pea, Entity shooter) {
         return (new PVZEntityDamageSource("goo_pea", pea, shooter)).setAppease();
     }
-    //龙火
-    public static PVZEntityDamageSource dragonFire(DragonFireEntity pea, Entity shooter) {
-        return (new PVZEntityDamageSource("dragon_fire", pea, shooter)).setAppease().setFlameDamage();
-    }
+
 }

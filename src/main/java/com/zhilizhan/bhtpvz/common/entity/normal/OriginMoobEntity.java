@@ -109,7 +109,7 @@ public class OriginMoobEntity extends Cow implements IForgeShearable {
     }
 
     private MobEffect getEffect() {
-        return EffectList.EFFECT.getRandomItem(this.random).get();
+        return  EffectList.EFFECT.getRandomItem(this.random).get();
     }
     private int getEffectDuration(MobEffect mobEffect) {
         if(mobEffect.isBeneficial()){

@@ -31,8 +31,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -52,7 +52,9 @@ public abstract class PeaGunItemMixin {
 
     @Shadow protected abstract PeaEntity.Type getPeaType(Player player);
 
+    @Unique
     private static final HashSet<IPlantType> BHTPVZ_SHOOT_MODES = new HashSet<>(Arrays.asList(BHTPvZPlants.RE_ICEPEA,BHTPvZPlants.PEA_POD,BHTPvZPlants.PRIMAL_PEA_SHOOTER,BHTPvZPlants.FIRE_PEASHOOTER,BHTPvZPlants.GOO_PEA_SHOOTER,BHTPvZPlants.BEE_SHOOTER));
+    @Unique
     private static final HashSet<IPlantType> NORMAL_PEA_MODES = new HashSet<>(Arrays.asList(BHTPvZPlants.RE_ICEPEA,BHTPvZPlants.PEA_POD,BHTPvZPlants.FIRE_PEASHOOTER,PVZPlants.SNOW_PEA,PVZPlants.PEA_SHOOTER,PVZPlants.GATLING_PEA,PVZPlants.SPLIT_PEA,PVZPlants.THREE_PEATER));
 
     @Inject(method = "registerPeaGunShootMode", at = @At("TAIL"))
@@ -63,12 +65,9 @@ public abstract class PeaGunItemMixin {
     private static boolean isValidMode(HashSet<?> instance, Object o,ItemStack stack) {
         return (SHOOT_MODES.contains(((PlantCardItem)stack.getItem()).plantType)||BHTPVZ_SHOOT_MODES.contains(((PlantCardItem)stack.getItem()).plantType) )&& !((PlantCardItem)stack.getItem()).isEnjoyCard;
     }
-    /**
-     * @author
-     * @reason
-     */
-    @Overwrite
-    public void performShoot(Level world, Player player, ItemStack itemStack, IPlantType mode) {
+
+    @Inject(method = "performShoot", at = @At(value = "HEAD"), cancellable = true)
+    public void performShoot(Level world, Player player, ItemStack itemStack, IPlantType mode, CallbackInfo ci) {
         ItemStack stack = getFirstBullets(itemStack);
         if (mode == PVZPlants.PEA_SHOOTER||mode==BHTPvZPlants.FIRE_PEASHOOTER||mode==BHTPvZPlants.BEE_SHOOTER||mode == PVZPlants.SNOW_PEA||mode==BHTPvZPlants.GOO_PEA_SHOOTER||mode==BHTPvZPlants.PRIMAL_PEA_SHOOTER) {
             this.shootPea(world, player, mode, stack, 0.5, 0.0,0.0, 0.0F);
@@ -113,8 +112,10 @@ public abstract class PeaGunItemMixin {
         if (PlayerUtil.isPlayerSurvival(player)) {
             itemStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(InteractionHand.MAIN_HAND));
         }
+        ci.cancel();
     }
-    public void shootPea(Level world, Player player, IPlantType mode, ItemStack stack, double forwardOffset,double heightOffset ,double rightOffset, float angle) {
+    @Unique
+    public void shootPea(Level world, Player player, IPlantType mode, ItemStack stack, double forwardOffset, double heightOffset , double rightOffset, float angle) {
         Vec3 vec = player.getLookAngle();
         double deltaX = forwardOffset * vec.x - rightOffset * vec.z;
         double deltaY = heightOffset - 0.4;

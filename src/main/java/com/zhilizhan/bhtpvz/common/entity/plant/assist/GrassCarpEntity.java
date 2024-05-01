@@ -37,8 +37,8 @@ public class GrassCarpEntity extends PVZPlantEntity {
             if (entity.getHealth()<entity.getMaxHealth()) {
                 entity.heal(this.getAttackDamage());
             }
-            if (entity instanceof GrassCarpEntity && entity!=this) {
-                entity.kill();
+            if (entity instanceof GrassCarpEntity grassCarp&& entity!=this) {
+                grassCarp.kill();
             }
 
         });

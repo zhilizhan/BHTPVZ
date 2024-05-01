@@ -19,6 +19,7 @@ import com.zhilizhan.bhtpvz.common.item.BHTPvZSpawnEggItem;
 import com.zhilizhan.bhtpvz.common.world.DecorationGenerate;
 import com.zhilizhan.bhtpvz.common.world.biome.BHTPvZBiomes;
 import com.zhilizhan.bhtpvz.config.BHTPvZConfig;
+import com.zhilizhan.bhtpvz.sound.BHTPvZSound;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -63,14 +64,15 @@ BHTPvZ {
         BHTPvZPlants.register();
         BHTPvZZombies.register();
         BHTPvZSkill.SkillType.register();
-        MinecraftForge.EVENT_BUS.register(LivingEvents.class);
         bus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(bus);
 
+
+        bus2.register(LivingEvents.class);
         bus2.addListener(EventPriority.HIGH, DecorationGenerate::addOresToBiomes);
         bus2.addListener(EventPriority.HIGH, DecorationGenerate::addTreesToBiomes);
         bus2.addListener(EventPriority.HIGH, DecorationGenerate::addBlocksToBiomes);
-
+        BHTPvZSound.SOUNDS.register(bus);
         //动态的树
         if(ModList.get().isLoaded("dynamictrees")){
         RegistryHandler.setup(MOD_ID);

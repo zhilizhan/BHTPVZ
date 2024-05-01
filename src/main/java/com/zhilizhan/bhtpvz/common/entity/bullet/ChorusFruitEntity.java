@@ -8,7 +8,6 @@ import com.zhilizhan.bhtpvz.common.damagesource.BHTPvZEntityDamageSource;
 import com.zhilizhan.bhtpvz.common.entity.BHTPvZEntityTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -24,7 +23,7 @@ public class ChorusFruitEntity extends PultBulletEntity {
     protected void dealDamage(Entity target) {
         PVZEntityDamageSource source = BHTPvZEntityDamageSource.chorusFruit(this, this.getThrower());
         target.hurt(source, this.attackDamage);
-        if(!(target instanceof AbstractBossZombieEntity) && target instanceof PVZZombieEntity) {
+        if(!(target instanceof AbstractBossZombieEntity) && target instanceof PVZZombieEntity zombie) {
             Vec3 vector3d = new Vec3(this.getX() - target.getX(), this.getY(0.5) - target.getEyeY(), this.getZ() - target.getZ());
             vector3d = vector3d.normalize();
 
@@ -33,9 +32,9 @@ public class ChorusFruitEntity extends PultBulletEntity {
 
             target.hurt(source, this.attackDamage);
 
-            ((PVZZombieEntity) target).randomTeleport(dx,target.getY(),dz,true);
+            zombie.randomTeleport(dx,target.getY(),dz,true);
             if (!this.isSilent()) {
-                this.level.playSound((Player)null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 1.0F, 1.0F);
+                this.level.playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 1.0F, 1.0F);
                 target.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
             }
         }

@@ -1,6 +1,7 @@
 package com.zhilizhan.bhtpvz.client.model.entity.plant.enforce;
 
 import com.hungteen.pvz.client.model.entity.plant.PVZPlantModel;
+import com.hungteen.pvz.utils.EntityUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.zhilizhan.bhtpvz.common.entity.plant.enforce.RotateRadishEntity;
@@ -39,7 +40,7 @@ public class RotateRadishModel extends PVZPlantModel<RotateRadishEntity> {
 
     @Override
     public void setupAnim(RotateRadishEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.isAlive()&&entity.getAttackTime()>0) {
+        if (EntityUtil.isEntityValid(entity)) {
             this.total.yRot = ageInTicks / 5.0F;
         }
     }

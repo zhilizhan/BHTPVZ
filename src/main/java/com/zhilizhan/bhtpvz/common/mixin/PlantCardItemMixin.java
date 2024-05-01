@@ -10,17 +10,12 @@ import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.item.spawn.card.ImitaterCardItem;
 import com.hungteen.pvz.common.item.spawn.card.PlantCardItem;
 import com.hungteen.pvz.common.item.spawn.card.SummonCardItem;
-import com.hungteen.pvz.utils.ConfigUtil;
-import com.hungteen.pvz.utils.PlayerUtil;
-import com.hungteen.pvz.utils.enums.Resources;
 import com.zhilizhan.bhtpvz.common.block.BHTPvZBlocks;
 import com.zhilizhan.bhtpvz.common.block.PotGrassBlock;
 import com.zhilizhan.bhtpvz.common.block.WaterPotBlock;
 import com.zhilizhan.bhtpvz.common.impl.plant.BHTPvZPlants;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -37,115 +32,63 @@ import net.minecraft.world.phys.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
-import java.util.function.Predicate;
-
-import static com.hungteen.pvz.common.item.spawn.card.PlantCardItem.*;
+import static com.hungteen.pvz.common.item.spawn.card.PlantCardItem.checkSunAndPlaceBlock;
+import static com.hungteen.pvz.common.item.spawn.card.PlantCardItem.checkSunAndSummonPlant;
 
 @Mixin(value = PlantCardItem.class,remap = false)
-public abstract class PlantCardItemMixin extends SummonCardItem{
+public abstract class PlantCardItemMixin extends SummonCardItem {
 
     public PlantCardItemMixin(IPAZType type, boolean isEnjoyCard) {
         super(type, isEnjoyCard);
     }
 
-    private static ItemStack getHeldStack(ItemStack stack) {
-        return ImitaterCardItem.getDoubleStack(stack).getFirst();
-    }
     @Shadow
-    private  static ItemStack getPlantStack(ItemStack stack) {
+    private static ItemStack getPlantStack(ItemStack stack) {
         return ImitaterCardItem.getDoubleStack(stack).getSecond();
     }
-    /**
-     * @author
-     * @reason
-     */
-    @Nullable
-    @Overwrite
-    public static BlockState getBlockState(Player player, IPlantType plant) {
-        return plant == PVZPlants.LILY_PAD ? BlockRegister.LILY_PAD.get().getStateForPlacement(player) :
+
+    @Shadow
+    private static ItemStack getHeldStack(ItemStack stack) {
+        return null;
+    }
+
+
+    @Inject(method = "getBlockState(Lnet/minecraft/world/entity/player/Player;Lcom/hungteen/pvz/api/types/IPlantType;)Lnet/minecraft/world/level/block/state/BlockState;", at = @At("HEAD"), cancellable = true)
+    private static void getBlockState(Player player, IPlantType plant, CallbackInfoReturnable<BlockState> cir) {
+        BlockState blockState = plant == PVZPlants.LILY_PAD ? BlockRegister.LILY_PAD.get().getStateForPlacement(player) :
                 (plant == PVZPlants.FLOWER_POT ? BlockRegister.FLOWER_POT.get().getStateForPlacement(player) :
-                        (plant == BHTPvZPlants.WATER_POT ? ((WaterPotBlock)BHTPvZBlocks.WATER_POT.get()).getStateForPlacement(player):
-                                (plant == BHTPvZPlants.POT_GRASS ? ((PotGrassBlock)BHTPvZBlocks.POT_GRASS.get()).getStateForPlacement(player):null)));
+                        (plant == BHTPvZPlants.WATER_POT ? ((WaterPotBlock) BHTPvZBlocks.WATER_POT.get()).getStateForPlacement(player) :
+                                (plant == BHTPvZPlants.POT_GRASS ? ((PotGrassBlock) BHTPvZBlocks.POT_GRASS.get()).getStateForPlacement(player) : null)));
+        cir.setReturnValue(blockState);
+        cir.cancel();
     }
 
-    /**
-     * @author
-     * @reason
-     */
-    @Nullable
-    @Overwrite
-    public static BlockState getBlockState(Direction direction, IPlantType plant) {
-        return plant == PVZPlants.LILY_PAD ? BlockRegister.LILY_PAD.get().getStateForPlacement(direction) :
+
+    @Inject(method = "getBlockState(Lnet/minecraft/core/Direction;Lcom/hungteen/pvz/api/types/IPlantType;)Lnet/minecraft/world/level/block/state/BlockState;", at = @At("HEAD"), cancellable = true)
+    private static void getBlockState(Direction direction, IPlantType plant, CallbackInfoReturnable<BlockState> cir) {
+        BlockState blockState = plant == PVZPlants.LILY_PAD ? BlockRegister.LILY_PAD.get().getStateForPlacement(direction) :
                 (plant == PVZPlants.FLOWER_POT ? BlockRegister.FLOWER_POT.get().getStateForPlacement(direction) :
-                        (plant == BHTPvZPlants.WATER_POT ? ((WaterPotBlock)BHTPvZBlocks.WATER_POT.get()).getStateForPlacement(direction):
-                                (plant == BHTPvZPlants.POT_GRASS ? ((PotGrassBlock)BHTPvZBlocks.POT_GRASS.get()).getStateForPlacement(direction):null)));
+                        (plant == BHTPvZPlants.WATER_POT ? ((WaterPotBlock) BHTPvZBlocks.WATER_POT.get()).getStateForPlacement(direction) :
+                                (plant == BHTPvZPlants.POT_GRASS ? ((PotGrassBlock) BHTPvZBlocks.POT_GRASS.get()).getStateForPlacement(direction) : null)));
+
+        cir.setReturnValue(blockState);
+        cir.cancel();
     }
-    @Shadow
-    public static boolean checkSunAndPlaceBlock(Player player, ItemStack plantStack, ItemStack heldStack, PlantCardItem cardItem, BlockPos pos) {
-        IPlantType plantType = cardItem.plantType;
-        BlockState state = getBlockState(player, plantType);
-        if (checkSunAndCD(player, cardItem, plantStack, true, (p) -> {
-            if (state == null) {
-                PVZMod.LOGGER.error("Plant Card : No such plant block !");
-                return false;
-            } else {
-                return true;
-            }
-        })) {
-            onUsePlantCard(player, heldStack, plantStack, (PlantCardItem)heldStack.getItem());
-            if (heldStack.getItem() instanceof ImitaterCardItem) {
-                if (!ImitaterCardItem.summonImitater(player, heldStack, plantStack, cardItem, pos, (imitater) -> {
-                })) {
-                    return false;
-                }
-            } else {
-                handlePlantBlock(player.level, plantType, state, pos);
-            }
 
-            if (player instanceof ServerPlayer) {
-                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, pos, heldStack);
-            }
 
-            return true;
-        } else {
-            return false;
-        }
-    }
-    @Shadow
-    private static boolean checkSunAndCD(Player player, PlantCardItem cardItem, ItemStack stack, boolean ignore, Predicate<Player> pre) {
-        if (player.getCooldowns().isOnCooldown(cardItem)) {
-            cardItem.notifyPlayerAndCD(player, stack, PlacementErrors.CD_ERROR);
-            return false;
-        } else if (!cardItem.isEnjoyCard && PlayerUtil.isPAZLocked(player, cardItem.plantType) && ConfigUtil.needUnlockToPlant() && !player.isCreative()) {
-            cardItem.notifyPlayerAndCD(player, stack, PlacementErrors.LOCK_ERROR, cardItem.plantType.getRequiredLevel());
-            return false;
-        } else {
-            int sunCost = ignore ? cardItem.getBasisSunCost(stack) : cardItem.getCardSunCost(player, stack);
-            if (sunCost > PlayerUtil.getResource(player, Resources.SUN_NUM) && !player.isCreative()) {
-                if (sunCost == cardItem.getBasisSunCost(stack)) {
-                    cardItem.notifyPlayerAndCD(player, stack, PlacementErrors.SUN_ERROR, sunCost);
-                } else {
-                    cardItem.notifyPlayerAndCD(player, stack, PlacementErrors.MULTIPLE_SUN_ERROR, sunCost);
-                }
-
-                return false;
-            } else if (pre.test(player)) {
-                if (!player.isCreative()) {
-                    PlayerUtil.addResource(player, Resources.SUN_NUM, -sunCost);
-                }
-
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-    }
     /**
+     * This method is the overridden 'use' method, which is called when a player interacts with an item.
+     * It handles the logic for using a plant card item in the game.
+     * @param world The current level or world in which the player is interacting.
+     * @param player The player who is interacting with the item.
+     * @param handIn The hand used by the player for the interaction.
+     * @return An instance of InteractionResultHolder containing the resulting ItemStack and additional information about the interaction result.
      * @author SuSen36
-     * @reason
+     * @reason none
      */
     @Overwrite
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand handIn) {
@@ -165,7 +108,7 @@ public abstract class PlantCardItemMixin extends SummonCardItem{
             } else {
                 BlockHitResult raytraceResult = result.withPosition(result.getBlockPos().above());
                 BlockPos pos = raytraceResult.getBlockPos();
-                if (world.getFluidState(pos.below()).getType() == Fluids.WATER && raytraceResult.getDirection() == Direction.UP && world.isEmptyBlock(pos)||world.getBlockState(pos.below()).is(BHTPvZBlocks.WATER_POT.get())&& raytraceResult.getDirection() == Direction.UP && world.isEmptyBlock(pos)) {
+                if (world.getFluidState(pos.below()).getType() == Fluids.WATER && raytraceResult.getDirection() == Direction.UP && world.isEmptyBlock(pos)||(world.getBlockState(pos.below()).is(BHTPvZBlocks.WATER_POT.get())&& raytraceResult.getDirection() == Direction.UP && world.isEmptyBlock(pos))) {
                     if (!plantType.isWaterPlant()) {
                         this.notifyPlayerAndCD(player, heldStack, PlacementErrors.GROUND_ERROR);
                     } else {
@@ -177,7 +120,6 @@ public abstract class PlantCardItemMixin extends SummonCardItem{
                         })) {
                             return InteractionResultHolder.success(heldStack);
                         }
-
                     }
                     return InteractionResultHolder.fail(heldStack);
                 } else {
@@ -188,8 +130,12 @@ public abstract class PlantCardItemMixin extends SummonCardItem{
 
     }
     /**
-     * @author
-     * @reason
+     * This method is used to handle the interaction of using a plant item on a specific context.
+     * It performs various checks and actions based on the context information.
+     * @param context The context in which the plant item is being used
+     * @return The result of the interaction (SUCCESS if the interaction is successful, FAIL if there is an error)
+     * @author SuSen36
+     * @reason none
      */
     @Overwrite
     public InteractionResult useOn(UseOnContext context) {
@@ -214,10 +160,17 @@ public abstract class PlantCardItemMixin extends SummonCardItem{
             this.notifyPlayerAndCD(player, heldStack, PlacementErrors.OUTER_ERROR);
             return InteractionResult.FAIL;
         }
-         else {
+        else {
             if (plantType.isWaterPlant()&&player!=null) {
-                  return this.use(world, player, hand).getResult();
-
+                if (plantType == PVZPlants.CAT_TAIL) {
+                    if (isSoilless && world.getFluidState(pos.above()).getType() == Fluids.WATER) {
+                        return this.use(world, player, hand).getResult();
+                    } if (context.getClickedFace() == Direction.UP&& world.isEmptyBlock(pos.above()) && world.getBlockState(pos).getBlock() == BHTPvZBlocks.WATER_POT.get()) {
+                        return this.use(world, player, hand).getResult();
+                    }
+                } else if (!isSoilless || world.getFluidState(pos.above()).getType() == Fluids.WATER) {
+                    return this.use(world, player, hand).getResult();
+                }
             }
             if (context.getClickedFace() == Direction.UP && world.isEmptyBlock(pos.above())) {
                 if (!isSoilless && plantType.getUpgradeFrom().isPresent()) {
@@ -229,12 +182,16 @@ public abstract class PlantCardItemMixin extends SummonCardItem{
                 } else {
                     if (plantType.getPlantBlock().isPresent()) {
                         if (world.getBlockState(pos).canBeReplaced(new BlockPlaceContext(context))) {
-                            checkSunAndPlaceBlock(player, heldStack, plantStack, cardItem, pos);
+                            if (player != null) {
+                                checkSunAndPlaceBlock(player, heldStack, plantStack, cardItem, pos);
+                            }
                             return InteractionResult.SUCCESS;
                         }
 
                         if (world.isEmptyBlock(pos.above()) && world.getBlockState(pos).canOcclude()) {
-                            checkSunAndPlaceBlock(player, heldStack, plantStack, cardItem, pos.above());
+                            if (player != null) {
+                                checkSunAndPlaceBlock(player, heldStack, plantStack, cardItem, pos.above());
+                            }
                             return InteractionResult.SUCCESS;
                         }
                     } else {

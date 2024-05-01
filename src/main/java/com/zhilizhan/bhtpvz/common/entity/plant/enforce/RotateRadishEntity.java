@@ -49,11 +49,12 @@ public class RotateRadishEntity extends PVZPlantEntity {
             for(d0 = target.getZ() - this.getZ(); d1 * d1 + d0 * d0 < 1.0E-4; d0 = (Math.random() - Math.random()) * 0.01) {
                 d1 = (Math.random() - Math.random()) * 0.01;
             }
-
-            ((LivingEntity)target).hurtDir = (float)(Mth.atan2(d0, d1) * 57.2957763671875 - (double)this.yRot);
-
+             if(target instanceof LivingEntity) {
+                 ((LivingEntity) target).hurtDir = (float) (Mth.atan2(d0, d1) * 57.2957763671875 - (double) this.yRot);
+                 ((LivingEntity) target).knockback(2, d1, d0);
+             }
             target.hurt(PVZEntityDamageSource.normal(this), this.getAttackDamage());
-            ((LivingEntity)target).knockback(2, d1, d0);
+
         });
         EntityUtil.playSound(this, (SoundEvent) SoundRegister.SWING.get());
     }

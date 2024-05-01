@@ -53,11 +53,11 @@ public class NutBowlingEntity extends PlantCloserEntity {
     public void performAttack(LivingEntity livingEntity) {
 
     }
-
-
+    @Override
     public void normalPlantTick() {
         super.normalPlantTick();
         if (!this.level.isClientSide) {
+            this.yRot = this.getDirection().toYRot() + this.getBowlingFacing().offset;
             if (this.tickCount <= 1 && !this.playSpawnSound) {
                 EntityUtil.playSound(this, SoundRegister.BOWLING.get());
                 this.playSpawnSound = true;
@@ -75,8 +75,8 @@ public class NutBowlingEntity extends PlantCloserEntity {
         }
 
         this.yRotO = this.yRot;
-        this.yRot = this.getDirection().toYRot() + this.getBowlingFacing().offset;
-        double angle = (double)this.yRot * Math.PI / 180.0;
+
+        double angle = (double)this.yRot * Math.PI / 90.0;
         double dx = -Math.sin(angle);
         double dz = Math.cos(angle);
         this.setDeltaMovement(dx , this.getDeltaMovement().y, dz );
@@ -105,20 +105,36 @@ public class NutBowlingEntity extends PlantCloserEntity {
     }
     protected void tickMove() {
         Vec3 vec3d = this.getDeltaMovement();
+        double dx = vec3d.x;
+        double dz = vec3d.z;
         double d0 = this.getX() + vec3d.x;
         double d1 = this.getY() + vec3d.y;
         double d2 = this.getZ() + vec3d.z;
+        // 生成水中粒子效果
         if (this.isInWater()) {
-            for(int i = 0; i < 4; ++i) {
-                this.level.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25, d1 - vec3d.y * 0.25, d2 - vec3d.z * 0.25, vec3d.x, vec3d.y, vec3d.z);
+            for (int i = 0; i < 4; ++i) {
+                double particleX = this.getX() - dx * 0.25;
+                double particleY = this.getY() - vec3d.y * 0.25;
+                double particleZ = this.getZ() - dz * 0.25;
+                this.level.addParticle(ParticleTypes.BUBBLE, particleX, particleY, particleZ, dx, vec3d.y, dz);
             }
-
         }
 
-        // this.setDeltaMovement(vec3d.scale((double)f1));
         if (!this.isNoGravity()) {
-            Vec3 vec3d1 = this.getDeltaMovement();
-            this.setDeltaMovement(vec3d1.x/2.5, vec3d1.y, vec3d1.z/2.5);
+            // 根据当前速度动态调整水平移动速度
+            double speedFactor = 4.5F;
+            double horizontalSpeed = Math.sqrt(dx * dx + dz * dz);
+            if (horizontalSpeed > 0) {
+                double ratio = speedFactor / horizontalSpeed;
+                dx *= ratio;
+                dz *= ratio;
+            }
+
+            // 限制速度范围在 [0.25, 0.5] 内
+            dx = Math.signum(dx) * Math.min(Math.abs(dx), 0.5);
+            dz = Math.signum(dz) * Math.min(Math.abs(dz), 0.5);
+
+            this.setDeltaMovement(dx, vec3d.y, dz);
         }
 
         this.move(MoverType.SELF, this.getDeltaMovement());
@@ -131,7 +147,6 @@ public class NutBowlingEntity extends PlantCloserEntity {
                     this.dealDamageTo(list.get(0));
                     this.changeDiretion();
                 }
-
             }
         }
     }
@@ -146,7 +161,6 @@ public class NutBowlingEntity extends PlantCloserEntity {
         if (player instanceof ServerPlayer) {
             EntityEffectAmountTrigger.INSTANCE.trigger((ServerPlayer)player, this, this.hitCount);
         }
-
 
     }
     private void tickRayTrace() {
@@ -189,9 +203,8 @@ public class NutBowlingEntity extends PlantCloserEntity {
 
 
     protected int getMaxLiveTick() {
-        return 400;
+        return 300;
     }
-
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -254,12 +267,6 @@ public class NutBowlingEntity extends PlantCloserEntity {
         d0 *= 64.0;
         return distance < d0 * d0;
     }
-
-    @OnlyIn(Dist.CLIENT)
-    public void lerpMotion(double x, double y, double z) {
-        this.setDeltaMovement(x, y, z);
-    }
-
     public boolean isAttackable() {
         return false;
     }

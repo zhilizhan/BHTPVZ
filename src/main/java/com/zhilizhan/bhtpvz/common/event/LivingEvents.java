@@ -1,6 +1,5 @@
 package com.zhilizhan.bhtpvz.common.event;
 
-import com.hungteen.pvz.PVZMod;
 import com.hungteen.pvz.common.enchantment.EnchantmentRegister;
 import com.hungteen.pvz.common.entity.AbstractPAZEntity;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
@@ -11,6 +10,7 @@ import com.hungteen.pvz.common.potion.EffectRegister;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.PlayerUtil;
 import com.hungteen.pvz.utils.enums.Resources;
+import com.zhilizhan.bhtpvz.BHTPvZ;
 import com.zhilizhan.bhtpvz.common.effect.BHTPvZMobEffects;
 import com.zhilizhan.bhtpvz.common.item.BHTPvZItems;
 import com.zhilizhan.bhtpvz.config.BHTPvZConfig;
@@ -31,7 +31,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = PVZMod.MOD_ID)
+@Mod.EventBusSubscriber(modid = BHTPvZ.MOD_ID)
 public class LivingEvents {
 
 	@SubscribeEvent
@@ -70,7 +70,7 @@ public class LivingEvents {
 		}
 		if (entity0.isAlive() && entity0.hasEffect(BHTPvZMobEffects.GOO_POISON.get())) {
 					if(entity0.tickCount % 20 == 0)entity0.hurt(DamageSource.MAGIC,1.5F);
-			}
+		}
 
 	}
 	@SubscribeEvent

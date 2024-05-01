@@ -12,13 +12,17 @@ public class SonicBoomParticle  extends PVZNormalParticle {
 
     public SonicBoomParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.quadSize = 3.5F;
-        this.lifetime = 16;
-        this.gravity = -0.1F;
+        this.quadSize = 0.2F;
+        this.lifetime = this.random.nextInt(5) + 15;
+        this.hasPhysics = false;
+        this.gravity = 0.0F;
+        this.xd /= 10.0;
+        this.yd /= 10.0;
+        this.zd /= 10.0;
         this.setSpriteFromAge(spriteSet);
     }
     public float getQuadSize(float scaleFactor) {
-        return this.quadSize * Mth.clamp(((float)this.age + scaleFactor) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
+        return this.quadSize + Mth.clamp(((float)this.age + scaleFactor) / (float)this.lifetime*64, 0.0F, 1.0F);
     }
     public static class Factory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
@@ -28,9 +32,7 @@ public class SonicBoomParticle  extends PVZNormalParticle {
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            OriginalFumeParticle particle = new OriginalFumeParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.pickSprite(this.sprite);
-            return particle;
+            return new SonicBoomParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.sprite);
         }
 
         private Factory() {

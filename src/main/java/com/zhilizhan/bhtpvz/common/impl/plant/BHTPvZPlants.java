@@ -4,10 +4,7 @@ import com.hungteen.pvz.api.PVZAPI;
 import com.hungteen.pvz.api.types.IPlantType;
 import com.hungteen.pvz.client.model.entity.plant.defence.WallNutModel;
 import com.hungteen.pvz.client.model.entity.plant.ice.SnowPeaModel;
-import com.hungteen.pvz.common.impl.CoolDowns;
-import com.hungteen.pvz.common.impl.EssenceTypes;
-import com.hungteen.pvz.common.impl.RankTypes;
-import com.hungteen.pvz.common.impl.SkillTypes;
+import com.hungteen.pvz.common.impl.*;
 import com.hungteen.pvz.common.impl.plant.PlantType;
 import com.zhilizhan.bhtpvz.BHTPvZ;
 import com.zhilizhan.bhtpvz.client.model.entity.plant.appease.BeeShooterModel;
@@ -88,7 +85,8 @@ public final class BHTPvZPlants extends PlantType {
             .cd(CoolDowns.HUGE_FAST).rank(RankTypes.GREEN).essence(EssenceTypes.ASSIST)
             .summonCard(() -> BHTPvZItems.WATER_POT_CARD.get())
             .enjoyCard(() -> BHTPvZItems.WATER_POT_ENJOY_CARD.get())
-            .plantBlock(BHTPvZBlocks.WATER_POT));
+            .plantBlock(BHTPvZBlocks.WATER_POT)
+            .placement(Placements.ANY));
 
     //紫颂果
     public static final IPlantType CHORUS_FRUIT_PULT = new BHTPvZPlants("chorus_fruit_pult", new PlantFeatures()

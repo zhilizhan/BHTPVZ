@@ -56,6 +56,7 @@ import com.zhilizhan.bhtpvz.common.entity.plant.toxic.SculkShroomEntity;
 import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -107,7 +108,6 @@ public class BHTPvZEntityTypes {
 	public static final RegistryObject<EntityType<StonePeaEntity>> STONE_PEA = registerEntityType(StonePeaEntity::new, "stone_pea", MobCategory.MISC); // 原始豌豆
 	public static final RegistryObject<EntityType<GooPeaEntity>> GOO_PEA = registerEntityType(GooPeaEntity::new, "goo_pea", MobCategory.MISC); // 毒液豌豆
 	public static final RegistryObject<EntityType<LightBeamEntity>> LIGHT_BEAM = registerEntityType(LightBeamEntity::new, "light_beam", MobCategory.MISC); // 光束
-	public static final RegistryObject<EntityType<DragonFireEntity>> DRAGON_FIRE = registerEntityType(DragonFireEntity::new, "dragon_fire", MobCategory.MISC); // 龙火
 
 
 	// 僵尸
@@ -169,7 +169,6 @@ public class BHTPvZEntityTypes {
 		RenderingRegistry.registerEntityRenderingHandler(STONE_PEA.get(), StonePeaRender::new); // 石豌豆
 		RenderingRegistry.registerEntityRenderingHandler(GOO_PEA.get(), GooPeaRender::new); // 毒液豌豆
 		RenderingRegistry.registerEntityRenderingHandler(LIGHT_BEAM.get(), LightBeamRender::new); // 毒液豌豆
-		RenderingRegistry.registerEntityRenderingHandler(DRAGON_FIRE.get(), DragonFireRender::new); // 毒液豌豆
 
 
 		// 僵尸
@@ -195,7 +194,7 @@ public class BHTPvZEntityTypes {
 	@SubscribeEvent
 	public static void onAttributeCreate(EntityAttributeCreationEvent event) {
 		event.put(BHTPvZEntityTypes.ORIGIN_MOOB.get(), OriginMoobEntity.createAttributes().build());
-		event.put(BHTPvZEntityTypes.RED_SUN.get(), RedSunEntity.createAttributes().build());
+		event.put(BHTPvZEntityTypes.RED_SUN.get(), LivingEntity.createLivingAttributes().build());
 		event.put(BHTPvZEntityTypes.BEE.get(), BeeEntity.createAttributes().build());
 
 	}

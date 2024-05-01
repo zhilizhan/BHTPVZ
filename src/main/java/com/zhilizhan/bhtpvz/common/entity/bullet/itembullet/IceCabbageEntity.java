@@ -30,7 +30,7 @@ public class IceCabbageEntity extends PultBulletEntity implements ItemSupplier {
 			source.addEffect(((IceCabbagePultEntity) this.getThrower()).getFrozenEffect().orElse(null));
 			source.addEffect(((IceCabbagePultEntity) this.getThrower()).getColdEffect().orElse(null));
 		}
-		entity.hurt(source, this.attackDamage);
+		if(entity instanceof LivingEntity)entity.hurt(source, this.attackDamage);
 	}
 
 	@Override

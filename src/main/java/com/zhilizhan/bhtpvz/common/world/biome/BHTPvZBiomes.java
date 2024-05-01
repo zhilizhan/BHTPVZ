@@ -25,7 +25,6 @@ public class BHTPvZBiomes {
     public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, BHTPvZ.MOD_ID);
     public static final RegistryObject<Biome> NIGHT = BIOMES.register("night", BHTPvZBiomes::nightBiome);
     public static final ResourceKey<Biome> NIGHT_KEY = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(BHTPvZ.MOD_ID, "night"));
-    public static final ResourceKey<Biome> BEWILDER_GARDEN_KEY = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(BHTPvZ.MOD_ID, "bewilder_garden"));
 
     private static Biome biome(Biome.BiomeCategory category, Biome.Precipitation rainType, float depth, float scale, float temperature, float downFall, BiomeSpecialEffects effect, MobSpawnSettings spawnSettings, BiomeGenerationSettings generateSettings) {
         return new Biome.BiomeBuilder().biomeCategory(category).precipitation(rainType).depth(depth).scale(scale).temperature(temperature).downfall(downFall).specialEffects(effect).mobSpawnSettings(spawnSettings).generationSettings(generateSettings).build();
@@ -33,12 +32,10 @@ public class BHTPvZBiomes {
 
     public static void addBiomeTypes() {
         BiomeDictionary.addTypes(NIGHT_KEY, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.OVERWORLD);
-        BiomeDictionary.addTypes(BEWILDER_GARDEN_KEY, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.OVERWORLD);
     }
 
     public static void addBiomesToGeneration() {
         BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(NIGHT_KEY, 10));
-        BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(BEWILDER_GARDEN_KEY, 10));
     }
 
     public static Biome nightBiome() {

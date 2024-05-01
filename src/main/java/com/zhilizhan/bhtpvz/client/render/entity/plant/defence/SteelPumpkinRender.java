@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class SteelPumpkinRender extends PVZPlantRender<SteelPumpkinEntity> {
 	public SteelPumpkinRender(EntityRenderDispatcher rendererManager) {
-		super(rendererManager, new SteelPumpkinModel(), 1.1f);
+		super(rendererManager, new SteelPumpkinModel(), 0.5f);
 	}
 
 }

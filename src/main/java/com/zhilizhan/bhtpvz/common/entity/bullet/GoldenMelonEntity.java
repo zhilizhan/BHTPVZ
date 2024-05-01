@@ -26,7 +26,7 @@ public class GoldenMelonEntity  extends PultBulletEntity {
     }
 
     protected void dealDamage(Entity target) {
-        target.hurt(BHTPvZEntityDamageSource.goldenMelon(this, this.getThrower()), this.getAttackDamage());
+        if(EntityUtil.isEntityValid(target)) target.hurt(BHTPvZEntityDamageSource.goldenMelon(this, this.getThrower()), this.getAttackDamage());
 
         this.attackEntity = target;
             if(Math.random()<=0.08){
@@ -50,7 +50,7 @@ public class GoldenMelonEntity  extends PultBulletEntity {
     public void dealSplashDamage() {
         float range = 3.0F;
         EntityUtil.getTargetableEntities(this.getOwnerOrSelf(), EntityUtil.getEntityAABB(this, range, range)).forEach((entity) -> {
-            if (!entity.is(this.attackEntity) && this.shouldHit(entity)) {
+            if (!entity.is(this.attackEntity) && this.shouldHit(entity) && EntityUtil.isEntityValid(entity)) {
                 PVZEntityDamageSource source;
 
                     source = BHTPvZEntityDamageSource.goldenMelon(this, this.getThrower());

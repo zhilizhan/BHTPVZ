@@ -37,7 +37,7 @@
   "item.bhtpvz.dt_cherry_seed": "樱桃树种子",
   "item.bhtpvz.dt_starfruit_seed": "杨桃树种子",
   "item.bhtpvz.goo_pea": "毒液豌豆",
-
+  "item.bhtpvz.pot_grass": "罐子草",
 
   "item.bhtpvz.ice_cabbage_pult_card": "冰卷心菜投手卡",
   "item.bhtpvz.ice_cabbage_pult_enjoy_card": "冰卷心菜投手体验卡",
@@ -127,6 +127,7 @@
 
 
   "tooltip.bhtpvz.xp_sapling.use": "食用以获得经验",
+  "tooltip.bhtpvz.wisdom_sapling.use": "食用以获得大量经验",
   "tooltip.bhtpvz.steel_coin.use": "使用后抽奖次数+3",
   "tooltip.bhtpvz.token.use": "使用以召唤戴夫",
   "tooltip.bhtpvz.sun_token.use": "使用以召唤阳光戴夫",
@@ -240,15 +241,17 @@
   "challenge.pvz.steel_and_fire.msg4": "",
   "challenge.pvz.steel_and_fire.msg5": "",
   "challenge.pvz.steel_and_fire.msg6": "",
-  "challenge.pvz.gym.msg1": "Additional challenges of bhtpvz",
+  "challenge.pvz.gym.msg1": "bhtpvz的其他挑战",
   "challenge.pvz.gym.msg2": "",
   "challenge.pvz.gym.msg4": "",
   "challenge.pvz.gym.msg5": "",
   "challenge.pvz.gym.msg6": "",
-  "challenge.pvz.dance.msg1": "Additional challenges of bhtpvz",
+  "challenge.pvz.dance.msg1": "bhtpvz的其他挑战",
   "challenge.pvz.dance.msg2": "",
   "challenge.pvz.dance.msg4": "",
   "challenge.pvz.dance.msg5": "",
-  "challenge.pvz.dance.msg6": ""
+  "challenge.pvz.dance.msg6": "",
+
+  "sound.bhtpvz.buzzer": "挥动锤子声"
 
 }

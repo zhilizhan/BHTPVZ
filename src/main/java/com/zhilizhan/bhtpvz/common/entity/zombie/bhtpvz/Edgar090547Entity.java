@@ -34,8 +34,8 @@ public class Edgar090547Entity extends PVZZombieEntity {
     public int getCrushCD() {
         return 30;
     }
-    private final class CrushAttackGoal extends Goal {
-        protected final Edgar090547Entity attacker;
+    private static final class CrushAttackGoal extends Goal {
+        private final Edgar090547Entity attacker;
 
         public CrushAttackGoal(Edgar090547Entity creature) {
             this.attacker = creature;
@@ -61,7 +61,7 @@ public class Edgar090547Entity extends PVZZombieEntity {
     }
     protected void registerAttackGoals() {
         this.goalSelector.addGoal(3, new Edgar090547Entity.MoveToTargetGoal(this, true));
-        this.goalSelector.addGoal(2, new Edgar090547Entity.CrushAttackGoal(this));
+        this.goalSelector.addGoal(2, new CrushAttackGoal(this));
     }
     private final class MoveToTargetGoal extends PVZZombieAttackGoal {
         public MoveToTargetGoal(Edgar090547Entity creature, boolean useLongMemory) {

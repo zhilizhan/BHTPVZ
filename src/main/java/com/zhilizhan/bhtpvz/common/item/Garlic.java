@@ -16,8 +16,7 @@ public class Garlic extends BlockItem {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
-        if(livingEntity instanceof Player) {
-            Player player = (Player) livingEntity;
+        if(livingEntity instanceof Player player) {
             if(!level.isClientSide) {
                 player.addEffect(new MobEffectInstance(BHTPvZMobEffects.HALITOSIS.get(),300));
             }

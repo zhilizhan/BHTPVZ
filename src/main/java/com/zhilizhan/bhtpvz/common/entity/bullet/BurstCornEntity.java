@@ -30,7 +30,7 @@ public class BurstCornEntity extends CornEntity {
             PVZEntityDamageSource source = BHTPvZEntityDamageSource.burst_corn(this, this.getThrower());
             target.setSecondsOnFire(3);
             target.hurt(source, this.getAttackDamage());
-          if(((LivingEntity) target).hasEffect(EffectRegister.BUTTER_EFFECT.get())){
+          if(target instanceof LivingEntity entity && entity.hasEffect(EffectRegister.BUTTER_EFFECT.get())){
               setSecondsOnFire(3);
           }
         this.attackEntity = target;

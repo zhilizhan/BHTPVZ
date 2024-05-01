@@ -36,12 +36,9 @@ public class PoppedChorusFruitEntity extends PultBulletEntity {
     public void dealSplashDamage() {
         float range = 2.5F;
         EntityUtil.getTargetableEntities(this.getOwnerOrSelf(), EntityUtil.getEntityAABB(this, range, range)).forEach((entity) -> {
-            if (!entity.is(this.attackEntity) && this.shouldHit(entity)) {
-                PVZEntityDamageSource source;
-
-                    source = BHTPvZEntityDamageSource.poppedChorusFruit(this, this.getThrower());
-                    entity.hurt(source, this.getAttackDamage() / 2.0F);
-
+            if (!entity.is(this.attackEntity) && this.shouldHit(entity) && EntityUtil.isEntityValid(entity)) {
+                PVZEntityDamageSource source = BHTPvZEntityDamageSource.poppedChorusFruit(this, this.getThrower());
+                entity.hurt(source, this.getAttackDamage() / 2.0F);
             }
 
         EntityUtil.playSound(this, SoundEvents.CHORUS_FLOWER_DEATH);

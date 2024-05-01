@@ -1,7 +1,6 @@
 package com.zhilizhan.bhtpvz.common.world;
 
 import com.hungteen.pvz.common.world.biome.BiomeRegister;
-import com.zhilizhan.bhtpvz.common.world.biome.BHTPvZBiomes;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.event.world.BiomeLoadingEvent;

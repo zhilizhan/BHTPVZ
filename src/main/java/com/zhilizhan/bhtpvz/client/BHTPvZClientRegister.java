@@ -17,7 +17,6 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.Map;
 
@@ -32,11 +31,7 @@ public class BHTPvZClientRegister {
         manager.register(BHTPvZParticle.ORIGINAL_FUME.get(), OriginalFumeParticle.Factory::new);
         manager.register(BHTPvZParticle.SONIC_BOOM.get(), SonicBoomParticle.Factory::new);
     }
-    @SubscribeEvent
-    public static void reigsterRenderType(FMLClientSetupEvent ev) {
-        // ItemBlockRenderTypes.setRenderLayer((Block) BHTPvZBlocks.STEEL_PUMPKIN.get(), RenderType.translucent());//有bug
-        // ItemBlockRenderTypes.setRenderLayer((Block) BHTPvZBlocks.SCREEN_DOOR.get(), RenderType.translucent());//半透明
-    }
+
 
     private static Pair<BakedModel, ModelResourceLocation> getBakedModel(ModelBakeEvent ev, Item item) {
         Map<ResourceLocation, BakedModel> modelRegistry = ev.getModelRegistry();

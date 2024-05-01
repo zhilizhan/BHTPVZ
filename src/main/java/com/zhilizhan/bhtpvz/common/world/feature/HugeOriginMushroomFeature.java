@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFea
 
 import java.util.Random;
 
-public class HugeOriginMushroomFeature  extends AbstractHugeMushroomFeature{
+public class HugeOriginMushroomFeature extends AbstractHugeMushroomFeature{
 
     public HugeOriginMushroomFeature(Codec<HugeMushroomFeatureConfiguration> codec) {
         super(codec);

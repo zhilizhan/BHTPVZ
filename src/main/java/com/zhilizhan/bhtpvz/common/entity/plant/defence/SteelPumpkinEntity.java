@@ -3,10 +3,12 @@ package com.zhilizhan.bhtpvz.common.entity.plant.defence;
 
 import com.hungteen.pvz.api.paz.IPlantEntity;
 import com.hungteen.pvz.api.types.IPlantType;
+import com.hungteen.pvz.common.entity.AbstractPAZEntity;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
 import com.hungteen.pvz.common.entity.plant.PlantInfo;
 import com.hungteen.pvz.common.entity.plant.base.PlantDefenderEntity;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
+import com.hungteen.pvz.utils.AlgorithmUtil;
 import com.zhilizhan.bhtpvz.common.impl.plant.BHTPvZPlants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -60,10 +62,10 @@ public class SteelPumpkinEntity extends PlantDefenderEntity{
 				if ( this.random.nextInt(4) == 0) {
 					for (Entity entity : list) {
 						if (!entity.hasPassenger(this)) {
-							if (this.getPassengers().size() < 1 && !entity.isPassenger() && entity.getBbWidth() < this.getBbWidth() && entity instanceof PVZPlantEntity) {
+							if (this.getPassengers().isEmpty() && !entity.isPassenger() && entity.getBbWidth() < this.getBbWidth() && entity instanceof PVZPlantEntity plantEntity) {
 								entity.startRiding(this);
 								this.hasPlant();
-								((PVZPlantEntity) entity).addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2000, 5));
+								plantEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2000, 5));
 							}
 						} else {
 							setSolid(true);
@@ -147,13 +149,17 @@ public class SteelPumpkinEntity extends PlantDefenderEntity{
 
 			public void onSuper(IPlantEntity plantEntity) {
 				super.onSuper(plantEntity);
-				plantEntity.setPumpkin(true);
+				if(plantEntity instanceof AbstractPAZEntity pazEntity) {
+					pazEntity.setPAZState(AlgorithmUtil.BitOperator.setBit(pazEntity.getPAZState(), 5, true));
+				}else plantEntity.setPumpkin(true);
 				plantEntity.setOuterDefenceLife(SUPER_PUMPKIN_LIFE);
 			}
 
 			public void placeOn(IPlantEntity plantEntity, int sunCost) {
 				super.placeOn(plantEntity, sunCost);
-				plantEntity.setPumpkin(true);
+				if(plantEntity instanceof AbstractPAZEntity pazEntity) {
+					pazEntity.setPAZState(AlgorithmUtil.BitOperator.setBit(pazEntity.getPAZState(), 5, true));
+				}else plantEntity.setPumpkin(true);
 				plantEntity.setOuterDefenceLife(NORMAL_PUMPKIN_LIFE+EXTRA_PUMPKIN_LIFE);
 			}
 

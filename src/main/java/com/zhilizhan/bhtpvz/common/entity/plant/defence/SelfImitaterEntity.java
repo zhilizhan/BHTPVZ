@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SelfImitaterEntity extends PlantDefenderEntity {
-    protected int ImitaterChance = this.getImitaterChance();
+    protected int ImitaterChance = (int) this.getSkillValue(BHTPvZSkill.IMITATER_CHANCE);
     public SelfImitaterEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
     }
@@ -50,19 +50,18 @@ public class SelfImitaterEntity extends PlantDefenderEntity {
         list.addAll(Arrays.asList(Pair.of(PAZAlmanacs.HEALTH, this.getLife()), Pair.of(PAZAlmanacs.AGAIN_CHANCE, this.getSuperBonusChance())));
     }
     public boolean isImitating() {
-        return this.canNormalUpdate() && this.getHealth() / this.getMaxHealth() < 0.1F;
-    }
-    public boolean startImitat() {
-        return this.canNormalUpdate() && this.getHealth() / this.getMaxHealth() < 0.2F;
+        return this.canNormalUpdate() && this.getHealth() / this.getMaxHealth() <= 0.2F;
     }
 
     public boolean hurt(DamageSource source, float amount) {
 
-        if (isImitating()&&ImitaterChance>0 && !((PVZEntityDamageSource)source).isCrushDamage()) {
+        if (isImitating()&&ImitaterChance>0) {
             if (!this.level.isClientSide) {
                 EntityUtil.playSound(this, SoundRegister.WAKE_UP.get());
-                this.imitate();
-            }else { WorldUtil.spawnRandomSpeedParticle(this.level, ParticleTypes.EXPLOSION, this.position(), 0.01F);}
+                if(source instanceof PVZEntityDamageSource pvzSource && !pvzSource.isCrushDamage()) {
+                    this.imitate();
+                }else this.imitate();
+            }else WorldUtil.spawnRandomSpeedParticle(this.level, ParticleTypes.EXPLOSION, this.position(), 0.01F);
         }
         return  super.hurt(source,amount);
     }
@@ -70,7 +69,7 @@ public class SelfImitaterEntity extends PlantDefenderEntity {
         if(this.getImitaterChance()>0&&!this.level.isClientSide){
         this.getOwnerPlayer().ifPresent((player) -> PlantCardItem.handlePlantEntity(player,this.getPlantType(), BHTPvZItems.SELF_IMITATER_CARD.get().getDefaultInstance(), this.blockPosition(), (plantEntity) -> {
             PlantUtil.copyPlantData(plantEntity, this);
-            ((SelfImitaterEntity)plantEntity).setImitaterChance(this.getImitaterChance()-1);
+            if(plantEntity instanceof SelfImitaterEntity selfImitater)selfImitater.setImitaterChance(this.getImitaterChance()-1);
             if (this.getVehicle() != null) {
                 this.stopRiding();
                 plantEntity.startRiding(this.getVehicle());
@@ -83,7 +82,7 @@ public class SelfImitaterEntity extends PlantDefenderEntity {
         }));}
     }
 
-    public int getImitaterChance(){return (int) this.getSkillValue(BHTPvZSkill.IMITATER_CHANCE);}
+    public int getImitaterChance(){return this.ImitaterChance;}
     public void setImitaterChance(int ImitaterChance){this.ImitaterChance=ImitaterChance;}
     public void startSuperMode(boolean first) {
         super.startSuperMode(first);

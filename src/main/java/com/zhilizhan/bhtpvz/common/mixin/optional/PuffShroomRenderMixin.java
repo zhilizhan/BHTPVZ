@@ -17,8 +17,11 @@ public abstract class PuffShroomRenderMixin extends PVZPlantRender<PuffShroomEnt
         super(rendererManager, entityModelIn, shadowSizeIn);
     }
     /**
-     * @author
-     * @reason
+     * This method calculates the scale factor for the PuffShroomEntity based on its properties and state.
+     * @param entity The PuffShroomEntity for which the scale factor is calculated
+     * @return The calculated scale factor for the entity
+     * @author SuSen36
+     * @reason none
      */
     @Overwrite
     public float getScaleByEntity(PuffShroomEntity entity) {
