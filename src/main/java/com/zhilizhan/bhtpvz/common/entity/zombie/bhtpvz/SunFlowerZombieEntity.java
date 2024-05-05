@@ -10,18 +10,18 @@ import com.mojang.datafixers.util.Pair;
 import com.zhilizhan.bhtpvz.common.entity.BHTPvZEntityTypes;
 import com.zhilizhan.bhtpvz.common.entity.misc.RedSunEntity;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Objects;
 
 public class SunFlowerZombieEntity extends AbstractZombotanyEntity {
-    public SunFlowerZombieEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public SunFlowerZombieEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
     }
     private int producTick = 0;
@@ -72,7 +72,7 @@ public class SunFlowerZombieEntity extends AbstractZombotanyEntity {
 
 
 
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("produc_tick")) {
             this.producTick = compound.getInt("produc_tick");
@@ -80,7 +80,7 @@ public class SunFlowerZombieEntity extends AbstractZombotanyEntity {
 
     }
 
-    public void addAdditionalSaveData(CompoundTag compound) {
+    public void addAdditionalSaveData(CompoundNBT compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("produc_tick", this.producTick);}
     public int getGenCD() {

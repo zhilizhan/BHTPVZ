@@ -5,21 +5,21 @@ import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.world.World;
 
 public class ChomperZombieEntity extends AbstractZombotanyEntity {
-    private static final EntityDataAccessor<Integer> REST_TICK = SynchedEntityData.defineId(ChomperZombieEntity.class, EntityDataSerializers.INT);
+    private static final DataParameter<Integer> REST_TICK = EntityDataManager.defineId(ChomperZombieEntity.class, DataSerializers.INT);
     public static final int ATTACK_ANIM_CD = 30;
-    public ChomperZombieEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public ChomperZombieEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
@@ -60,8 +60,8 @@ public class ChomperZombieEntity extends AbstractZombotanyEntity {
     protected void performAttack() {
         LivingEntity target = this.getTarget();
 
-            this.doHurtTarget(target);
-            this.setRestTick(this.getRestCD());
+           if(EntityUtil.isEntityValid(target))this.doHurtTarget(target);
+           this.setRestTick(this.getRestCD());
 
         EntityUtil.playSound(this, SoundRegister.BIG_CHOMP.get());
     }
@@ -79,6 +79,7 @@ public class ChomperZombieEntity extends AbstractZombotanyEntity {
     public void setRestTick(int tick) {
         this.entityData.set(REST_TICK, tick);
     }
+    @Override
     protected float getModifyAttackDamage(Entity entity, float f) {
         return !this.isResting() ? this.getEatDamage()*10 : this.getEatDamage();
     }
@@ -87,7 +88,7 @@ public class ChomperZombieEntity extends AbstractZombotanyEntity {
         super.defineSynchedData();
         this.entityData.define(REST_TICK, 0);
     }
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("rest_tick")) {
             this.setRestTick(compound.getInt("rest_tick"));

@@ -7,5 +7,23 @@
         "stream": true
       }
     ]
+  },
+  "pool": {
+    "subtitle": "sound.bhtpvz.pool",
+    "sounds": [
+      {
+        "name": "bhtpvz:pool",
+        "stream": true
+      }
+    ]
+  },
+  "bowling_music": {
+    "subtitle": "sound.bhtpvz.bowling_music",
+    "sounds": [
+      {
+        "name": "bhtpvz:bowling_music",
+        "stream": true
+      }
+    ]
   }
 }

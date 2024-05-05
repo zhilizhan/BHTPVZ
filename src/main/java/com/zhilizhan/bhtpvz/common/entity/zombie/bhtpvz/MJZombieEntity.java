@@ -8,24 +8,24 @@ import com.hungteen.pvz.utils.WorldUtil;
 import com.hungteen.pvz.utils.ZombieUtil;
 import com.zhilizhan.bhtpvz.common.entity.BHTPvZEntityTypes;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.*;
 
 public class MJZombieEntity extends PVZZombieEntity {
-    private static final EntityDataAccessor<Integer> SUMMON_TIME;
+    private static final DataParameter<Integer> SUMMON_TIME;
 
     private static final float[][] POS_OFFSET;
 
@@ -33,7 +33,7 @@ public class MJZombieEntity extends PVZZombieEntity {
     private int summonCnt = 0;
     private int restTick = 0;
 
-    public MJZombieEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public MJZombieEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
         this.canCollideWithZombie = false;
         this.setRestTick();
@@ -79,7 +79,7 @@ public class MJZombieEntity extends PVZZombieEntity {
                     ++this.summonCnt;
                     EntityUtil.onEntitySpawn(this.level, dancer, pos);
                 }
-                this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 5, false, false));
+                this.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 40, 5, false, false));
             }
         }
 
@@ -138,7 +138,7 @@ public class MJZombieEntity extends PVZZombieEntity {
         return 15;
     }
 
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("zombie_summon_tick")) {
             this.setSummonTime(compound.getInt("zombie_summon_tick"));
@@ -149,7 +149,7 @@ public class MJZombieEntity extends PVZZombieEntity {
         }
 
         if (compound.contains("dancer_ids")) {
-            CompoundTag nbt = compound.getCompound("dancer_ids");
+            CompoundNBT nbt = compound.getCompound("dancer_ids");
 
             for (int i = 0; i < 4; ++i) {
                 if (nbt.contains("dancer_" + i)) {
@@ -160,11 +160,11 @@ public class MJZombieEntity extends PVZZombieEntity {
 
     }
 
-    public void addAdditionalSaveData(CompoundTag compound) {
+    public void addAdditionalSaveData(CompoundNBT compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("zombie_summon_tick", this.getSummonTime());
         compound.putInt("zombie_rest_tick", this.restTick);
-        CompoundTag nbt = new CompoundTag();
+        CompoundNBT nbt = new CompoundNBT();
 
         for (int i = 0; i < 4; ++i) {
             if (this.Dancers.get(i).isPresent()) {
@@ -189,7 +189,7 @@ public class MJZombieEntity extends PVZZombieEntity {
 
 
     static {
-        SUMMON_TIME = SynchedEntityData.defineId(MJZombieEntity.class, EntityDataSerializers.INT);
+        SUMMON_TIME = EntityDataManager.defineId(MJZombieEntity.class, DataSerializers.INT);
         POS_OFFSET = new float[][]{{2.0F, 0.0F}, {-2.0F, 0.0F}, {0.0F, 2.0F}, {0.0F, -2.0F}};
     }
 

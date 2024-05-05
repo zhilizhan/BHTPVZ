@@ -11,18 +11,19 @@ public class BHTPvZConfig {
         public Common(ForgeConfigSpec.Builder builder) {
 
             builder.comment("Settings about zombies.").push("Zombie Settings");
-            this.EntitySettings.ZombieSetting.ZombieHurtAmount = builder.translation("config.bhtpvz.zombie.zombie_hurt_amount").comment("zombie hurt amount of multiple.").defineInRange("ZombieHurtAmount", 1.5, 0.1, 5);
+            this.EntitySettings.ZombieSetting.ZombieHurtAmount = builder.translation("config.bhtpvz.zombie.zombie_hurt_amount").comment("zombie hurt amount of multiple.").defineInRange("ZombieHurtAmount", 1.0, 0.1, 5);
+            this.EntitySettings.ZombieSetting.GigaTombstoneCanBeAttack = builder.translation("config.bhtpvz.plant.gaia_tombstone_can_be_attack").comment("If it‘s true,plant will Attack GigaTombstone.").define("GigaTombstoneCanBeAttack", false);
+
             builder.pop();
 
             builder.comment("Settings about plants.").push("Plant Settings");
-            this.EntitySettings.PlantSetting.ScaredyShroomSurrender = builder.translation("config.bhtpvz.plant.scaredy_shroom_surrender").comment("If it‘s true,scaredyshroom will surrender.").define("ScaredyShroomSurrender", true);
-            this.EntitySettings.PlantSetting.PuffShroomGrow = builder.translation("config.bhtpvz.plant.puffshroom_grow").comment("If it‘s true,puffshroom will growup.").define("PuffShroomGrow", true);
-            this.EntitySettings.PlantSetting.SteelPumpkinPeace = builder.translation("config.bhtpvz.plant.steel_pumpkin_peace").comment("If it‘s true,steel_pumpkin with plant will not be attacked.").define("SteelPumpkinPeace", true);
-            this.EntitySettings.PlantSetting.MyceliumSleep = builder.translation("config.bhtpvz.plant.mycelium_sleep").comment("If it‘s false,mushrooms sleep on mycelium.").define("MyceliumSleep", true);
+            this.EntitySettings.PlantSetting.ScaredyShroomSurrender = builder.translation("config.bhtpvz.plant.scaredy_shroom_surrender").comment("If it‘s true,scaredyshroom will surrender.").define("ScaredyShroomSurrender", false);
+            this.EntitySettings.PlantSetting.PuffShroomGrow = builder.translation("config.bhtpvz.plant.puffshroom_grow").comment("If it‘s true,puffshroom will growup.").define("PuffShroomGrow", false);
+            this.EntitySettings.PlantSetting.MyceliumSleep = builder.translation("config.bhtpvz.plant.mycelium_sleep").comment("If it‘s false,mushrooms sleep on mycelium.").define("MyceliumSleep", false);
             builder.pop();
 
             builder.comment("Settings about pvzDamage.").push("EntityLiveTime");
-            this.EntitySettings.EntityLiveTick.PVZDamageAmount = builder.translation("config.bhtpvz.entity.pvz_damage_amount").comment("pvz entity damage of amount to vanilla entity.").defineInRange("PVZDamageAmount", 0.5, 0.1, 3);
+            this.EntitySettings.EntityLiveTick.PVZDamageAmount = builder.translation("config.bhtpvz.entity.pvz_damage_amount").comment("pvz entity damage of amount to vanilla entity.").defineInRange("PVZDamageAmount", 1.0, 0.1, 3);
             builder.pop();
 
         }
@@ -40,7 +41,6 @@ public class BHTPvZConfig {
             public static class EntityLiveTick {
 
                 public ForgeConfigSpec.DoubleValue PVZDamageAmount;
-                public ForgeConfigSpec.IntValue ElementBallLiveTick;
 
                 public EntityLiveTick() {
                 }
@@ -49,7 +49,6 @@ public class BHTPvZConfig {
             public static class PlantSetting {
                 public ForgeConfigSpec.BooleanValue ScaredyShroomSurrender;
                 public ForgeConfigSpec.BooleanValue PuffShroomGrow;
-                public ForgeConfigSpec.BooleanValue SteelPumpkinPeace;
                 public ForgeConfigSpec.BooleanValue MyceliumSleep;
 
                 public PlantSetting() {
@@ -58,6 +57,7 @@ public class BHTPvZConfig {
 
             public static class ZombieSetting {
                 public ForgeConfigSpec.DoubleValue ZombieHurtAmount;
+                public ForgeConfigSpec.BooleanValue GigaTombstoneCanBeAttack;
 
                 public ZombieSetting() {
                 }

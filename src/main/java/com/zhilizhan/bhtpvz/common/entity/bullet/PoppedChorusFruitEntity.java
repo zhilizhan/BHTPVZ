@@ -5,19 +5,19 @@ import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.zhilizhan.bhtpvz.common.damagesource.BHTPvZEntityDamageSource;
 import com.zhilizhan.bhtpvz.common.entity.BHTPvZEntityTypes;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.*;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 
 public class PoppedChorusFruitEntity extends PultBulletEntity {
 
     private Entity attackEntity = null;
 
-    public PoppedChorusFruitEntity(EntityType<?> type, Level worldIn) {
+    public PoppedChorusFruitEntity(EntityType<?> type, World worldIn) {
         super(type, worldIn);
     }
 
-    public PoppedChorusFruitEntity(Level worldIn, LivingEntity shooter) {
+    public PoppedChorusFruitEntity(World worldIn, LivingEntity shooter) {
         super(BHTPvZEntityTypes.POPPED_CHORUS_FRUIT.get(), worldIn, shooter);
     }
 
@@ -45,8 +45,8 @@ public class PoppedChorusFruitEntity extends PultBulletEntity {
     });
     }
 
-    public EntityDimensions getDimensions(Pose poseIn) {
-        return EntityDimensions.scalable(0.6F, 0.6F);
+    public EntitySize getDimensions(Pose poseIn) {
+        return EntitySize.scalable(0.6F, 0.6F);
     }
 
 }

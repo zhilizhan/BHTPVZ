@@ -87,7 +87,7 @@
 
 
   "item.bhtpvz.origin_moob_spawn_egg": "origin moob spawn egg",
-
+  "item.bhtpvz.toxic_moob_spawn_egg": "toxic moob spawn egg",
 
   "item.bhtpvz.edgar_090547_spawn_egg": "edgar 090547 spawn egg",
   "item.bhtpvz.flower_pot_zombie_spawn_egg": "flower pot zombie spawn egg",
@@ -101,6 +101,10 @@
   "item.bhtpvz.sun_flower_zombie_spawn_egg": "sun flower zombie spawn egg",
   "item.bhtpvz.chomper_zombie_spawn_egg": "chomper zombie spawn egg",
 
+  "item.bhtpvz.pool_disc": "pool music disc",
+  "item.bhtpvz.bowling_music_disc": "bowling music disc",
+  "item.bhtpvz.pool_disc.desc": "pool bgm",
+  "item.bhtpvz.bowling_music_disc.desc": "bowling bgm",
 
   "block.bhtpvz.cherry_leaves": "cherry leaves",
   "block.bhtpvz.starfruit_leaves": "starfruit leaves",
@@ -124,6 +128,7 @@
   "block.bhtpvz.dt_starfruit_branch": "starfruit branch",
   "block.bhtpvz.dt_cherry_branch": "cherry branch",
   "block.bhtpvz.pea_block": "pea block",
+  "block.bhtpvz.toxic_shroom_block": "toxic shroom block",
 
 
   "effect.bhtpvz.halitosis": "halitosis",
@@ -179,6 +184,7 @@
 
 
   "entity.bhtpvz.origin_moob": "origin moob",
+  "entity.bhtpvz.toxic_moob": "toxic moob",
   "entity.bhtpvz.red_sun": "red sun",
 
   "skill.pvz.wart_heal_cd": "Heal CD",
@@ -193,7 +199,8 @@
   "skill.pvz.grass_carp_damage.desc": "Plants will have more heal amount",
   "skill.pvz.grass_carp_heal_rage": "Bigger heal rage",
   "skill.pvz.grass_carp_heal_rage.desc": "Plants will have bigger heal rage",
-
+  "skill.pvz.more_chorus_fruit_damage": "Higher damage",
+  "skill.pvz.more_chorus_fruit_damage.desc": "Plants will have higher damage",
 
   "challenge.pvz.roof_extra.name": "Roof Extra",
   "challenge.pvz.roof_extra.msg1": "Additional challenges of bhtpvz",
@@ -256,5 +263,7 @@
   "invasion.pvz.roof_extra": "roof extra invasion",
   "invasion.pvz.invis_invasion": "invis invasion",
 
-  "sound.bhtpvz.buzzer": "Buzzer"
+  "sound.bhtpvz.buzzer": "Buzzer",
+  "sound.bhtpvz.pool": "Pool music",
+  "sound.bhtpvz.bowling_music": "Bowling music"
 }

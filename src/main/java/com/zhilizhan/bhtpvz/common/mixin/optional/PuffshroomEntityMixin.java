@@ -7,12 +7,11 @@ import com.hungteen.pvz.common.impl.SkillTypes;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.zhilizhan.bhtpvz.config.BHTPvZConfig;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -29,13 +28,13 @@ public abstract class PuffshroomEntityMixin extends PlantShooterEntity {
 
     @Shadow public abstract int getMaxSuperCnt();
 
-    public PuffshroomEntityMixin(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public PuffshroomEntityMixin(EntityType <? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
     }
     @Unique
     protected void growUpTo(int stage) {
         this.setExistTick(growTime * (stage - 1) - 10 - 2);
-        EntityUtil.playSound(this, (SoundEvent) SoundRegister.PLANT_GROW.get());
+        EntityUtil.playSound(this, SoundRegister.PLANT_GROW.get());
     }
 
     @Unique
@@ -89,9 +88,9 @@ public abstract class PuffshroomEntityMixin extends PlantShooterEntity {
                 }
             }
 
-            Player player = EntityUtil.getEntityOwner(this.level, this);
-            if (player instanceof ServerPlayer) {
-                EntityEffectAmountTrigger.INSTANCE.trigger((ServerPlayer)player, this, cnt);
+            PlayerEntity player = EntityUtil.getEntityOwner(this.level, this);
+            if (player instanceof ServerPlayerEntity) {
+                EntityEffectAmountTrigger.INSTANCE.trigger((ServerPlayerEntity)player, this, cnt);
             }
         if (!this.isInGrowStage(3)) {
             this.growUpTo(3);

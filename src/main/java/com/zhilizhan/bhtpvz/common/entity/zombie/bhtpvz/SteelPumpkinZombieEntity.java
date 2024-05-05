@@ -10,18 +10,18 @@ import com.hungteen.pvz.remove.MetalTypes;
 import com.hungteen.pvz.utils.ZombieUtil;
 import com.hungteen.pvz.utils.interfaces.IHasMetal;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
 
 import java.util.Objects;
 
 public class SteelPumpkinZombieEntity extends AbstractZombotanyEntity implements IHasMetal {
-    public SteelPumpkinZombieEntity(EntityType<? extends PathfinderMob> type, Level level) {
+    public SteelPumpkinZombieEntity(EntityType<? extends CreatureEntity> type, World level) {
         super(type, level);
     }
 
@@ -45,7 +45,7 @@ public class SteelPumpkinZombieEntity extends AbstractZombotanyEntity implements
         if(! (entity instanceof PVZPlantEntity)) {
             return false;
         }
-        return ((PVZPlantEntity) entity).hasMetal();
+        return entity instanceof PlantDefenderEntity && ((PVZPlantEntity) entity).hasMetal();
     }
 
     @Override
@@ -105,12 +105,12 @@ public class SteelPumpkinZombieEntity extends AbstractZombotanyEntity implements
 
     @Override
     public float getLife() {
-        return 100;
+        return 125;
     }
 
     @Override
     public float getOuterLife() {
-        return 225;
+        return 175;
     }
 
     @Override

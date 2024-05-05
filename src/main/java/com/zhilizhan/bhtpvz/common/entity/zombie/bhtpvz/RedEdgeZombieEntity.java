@@ -4,30 +4,29 @@ import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerBossInfo;
 
 public class RedEdgeZombieEntity extends PVZZombieEntity {
-    private final ServerBossEvent bossInfo;
-    private static final EntityDataAccessor<Boolean> STEEL_AND_FIRE = SynchedEntityData.defineId(RedEdgeZombieEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> SHARP_EDGE = SynchedEntityData.defineId(RedEdgeZombieEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_ORIGIN = SynchedEntityData.defineId(RedEdgeZombieEntity.class, EntityDataSerializers.BOOLEAN);
+    private final ServerBossInfo bossInfo;
+    private static final DataParameter<Boolean> STEEL_AND_FIRE = EntityDataManager.defineId(RedEdgeZombieEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SHARP_EDGE = EntityDataManager.defineId(RedEdgeZombieEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> IS_ORIGIN = EntityDataManager.defineId(RedEdgeZombieEntity.class, DataSerializers.BOOLEAN);
     private int noTargetTick;
 
-    public RedEdgeZombieEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public RedEdgeZombieEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
-        this.bossInfo = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(true);
+        this.bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), ServerBossInfo.Color.RED, ServerBossInfo.Overlay.PROGRESS)).setDarkenScreen(true);
         this.noTargetTick = 0;
         this.canBeCharm = false;
         this.canBeMini = false;
@@ -100,17 +99,17 @@ public class RedEdgeZombieEntity extends PVZZombieEntity {
         this.entityData.define(IS_ORIGIN, false);
     }
     @Override
-    public void startSeenByPlayer(ServerPlayer player) {
+    public void startSeenByPlayer(ServerPlayerEntity player) {
         super.startSeenByPlayer(player);
         if(this.isOrigin()) this.bossInfo.addPlayer(player);
     }
     @Override
-    public void stopSeenByPlayer(ServerPlayer player) {
+    public void stopSeenByPlayer(ServerPlayerEntity player) {
         super.stopSeenByPlayer(player);
         if(this.isOrigin()) this.bossInfo.removePlayer(player);
     }
     @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         if(compound.contains("steel_and_fire")) {
             this.setSteelAndFire(compound.getBoolean("steel_and_fire"));
@@ -141,7 +140,7 @@ public class RedEdgeZombieEntity extends PVZZombieEntity {
         return this.entityData.get(IS_ORIGIN);
     }
     @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
+    public void addAdditionalSaveData(CompoundNBT compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("steel_and_fire", this.hasSteelAndFire());
         compound.putBoolean("sharp_edge", this.hasSharpEdge());

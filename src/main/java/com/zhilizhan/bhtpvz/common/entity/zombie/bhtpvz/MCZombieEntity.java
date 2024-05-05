@@ -3,12 +3,12 @@ package com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz;
 import com.hungteen.pvz.common.entity.zombie.grass.NormalZombieEntity;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.world.World;
 
 public class MCZombieEntity extends NormalZombieEntity {
-    public MCZombieEntity(EntityType<? extends PathfinderMob> type, Level level) {
+    public MCZombieEntity(EntityType<? extends CreatureEntity> type, World level) {
         super(type, level);
     }
 

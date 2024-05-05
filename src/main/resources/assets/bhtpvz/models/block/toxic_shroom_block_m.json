@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "texture": "bhtpvz:block/origin_mushroom_block"
+    "all": "bhtpvz:block/toxic_shroom_block"
   }
 }

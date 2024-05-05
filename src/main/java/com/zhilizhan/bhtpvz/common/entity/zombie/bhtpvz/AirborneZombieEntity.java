@@ -1,39 +1,37 @@
 package com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz;
 
-import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-
 import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.ZombieUtil;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.FlyingMoveControl;
-import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.level.Level;
+import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.FlyingMovementController;
+import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.FlyingPathNavigator;
+import net.minecraft.pathfinding.GroundPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 
 import java.util.Objects;
 
 public class AirborneZombieEntity extends PVZZombieEntity {
-    private static final EntityDataAccessor<Boolean> HAS_LINE = SynchedEntityData.defineId(AirborneZombieEntity.class, EntityDataSerializers.BOOLEAN);
-    private final MoveControl FlyController = new FlyingMoveControl(this, 360, true);
-    private final MoveControl GroundController = new MoveControl(this);
-    private PathNavigation FlyNavigator;
-    private PathNavigation GroundNavigator;
+    private static final DataParameter<Boolean> HAS_LINE = EntityDataManager.defineId(AirborneZombieEntity.class, DataSerializers.BOOLEAN);
+    private final MovementController FlyController = new FlyingMovementController(this, 360, true);
+    private final MovementController GroundController = new MovementController(this);
+    private PathNavigator FlyNavigator;
+    private PathNavigator GroundNavigator;
 
-    public AirborneZombieEntity(EntityType<? extends PathfinderMob> type, Level level) {
+    public AirborneZombieEntity(EntityType<? extends CreatureEntity> type, World level) {
         super(type, level);
     }
 
@@ -46,8 +44,8 @@ public class AirborneZombieEntity extends PVZZombieEntity {
     @Override
     protected void registerGoals() {
         // define at here to avoid crash.
-        this.FlyNavigator = new FlyingPathNavigation(this, level);
-        this.GroundNavigator = new GroundPathNavigation(this, level);
+        this.FlyNavigator = new FlyingPathNavigator(this, level);
+        this.GroundNavigator = new GroundPathNavigator(this, level);
         super.registerGoals();
     }
 
@@ -60,7 +58,7 @@ public class AirborneZombieEntity extends PVZZombieEntity {
     }
 
     @Override
-    public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
+    public void onSyncedDataUpdated(DataParameter<?> data) {
         super.onSyncedDataUpdated(data);
         if(data.equals(HAS_LINE)) {
             this.setNoGravity(this.hasLine());
@@ -113,13 +111,13 @@ public class AirborneZombieEntity extends PVZZombieEntity {
     }
 
     @Override
-    public PathNavigation getNavigation() {
+    public PathNavigator getNavigation() {
         if(this.hasLine()) {
-            if(! (this.navigation instanceof FlyingPathNavigation)) {
+            if(! (this.navigation instanceof FlyingPathNavigator)) {
                 this.navigation = this.FlyNavigator;
             }
         } else {
-            if(! (this.navigation instanceof GroundPathNavigation)) {
+            if(! (this.navigation instanceof GroundPathNavigator)) {
                 this.navigation = this.GroundNavigator;
             }
         }
@@ -127,7 +125,7 @@ public class AirborneZombieEntity extends PVZZombieEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         if(compound.contains("has_line")) {
             this.setLine(compound.getBoolean("has_line"));
@@ -135,7 +133,7 @@ public class AirborneZombieEntity extends PVZZombieEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
+    public void addAdditionalSaveData(CompoundNBT compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("has_line", this.hasLine());
     }

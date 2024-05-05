@@ -5,13 +5,13 @@ import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.utils.ZombieUtil;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.World;
 
 public class FlowerPotZombieEntity extends PVZZombieEntity {
-    public FlowerPotZombieEntity(EntityType<? extends PathfinderMob> type, Level level) {
+    public FlowerPotZombieEntity(EntityType<? extends CreatureEntity> type, World level) {
         super(type, level);
     }
 

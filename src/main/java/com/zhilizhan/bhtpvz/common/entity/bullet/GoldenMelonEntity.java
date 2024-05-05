@@ -10,18 +10,18 @@ import com.hungteen.pvz.utils.EntityUtil;
 import com.zhilizhan.bhtpvz.client.particle.BHTPvZParticle;
 import com.zhilizhan.bhtpvz.common.damagesource.BHTPvZEntityDamageSource;
 import com.zhilizhan.bhtpvz.common.entity.BHTPvZEntityTypes;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.*;
+import net.minecraft.world.World;
 
 public class GoldenMelonEntity  extends PultBulletEntity {
 
     private Entity attackEntity = null;
 
-    public GoldenMelonEntity(EntityType<?> type, Level worldIn) {
+    public GoldenMelonEntity(EntityType<?> type, World worldIn) {
         super(type, worldIn);
     }
 
-    public GoldenMelonEntity(Level worldIn, LivingEntity shooter) {
+    public GoldenMelonEntity(World worldIn, LivingEntity shooter) {
         super(BHTPvZEntityTypes.GOLDEN_MELON.get(), worldIn, shooter);
     }
 
@@ -62,8 +62,8 @@ public class GoldenMelonEntity  extends PultBulletEntity {
         EntityUtil.playSound(this, SoundRegister.MELON_HIT.get());
     }
 
-    public EntityDimensions getDimensions(Pose poseIn) {
-        return EntityDimensions.scalable(0.6F, 0.6F);
+    public EntitySize getDimensions(Pose poseIn) {
+        return EntitySize.scalable(0.6F, 0.6F);
     }
 
 }

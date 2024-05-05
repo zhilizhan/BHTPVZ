@@ -5,24 +5,24 @@ import com.hungteen.pvz.common.entity.misc.drop.SunEntity;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.PlayerUtil;
 import com.hungteen.pvz.utils.enums.Resources;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
+
 
 public class RedSunEntity extends SunEntity {
-    public RedSunEntity(EntityType<? extends Mob> type, Level worldIn) {
+    public RedSunEntity(EntityType<? extends MobEntity> type, World worldIn) {
         super(type, worldIn);
         this.setAmount(this.getDefaultAmount());
         this.setNoGravity(true);
     }
-    public Vec3 ColorBase = new Vec3(240.0, 24.0, 24.0);
+    public Vector3d ColorBase = new Vector3d(240.0, 24.0, 24.0);
     @Override
     protected int getDefaultAmount() {
-        return -50;
+        return -25;
     }
     public int getIcon() {
         int value = -(this.getAmount());
@@ -31,13 +31,13 @@ public class RedSunEntity extends SunEntity {
     public void tick() {
         super.tick();
         if ((this.tickCount + this.getId()) % 40 == 0) {
-            Entity following = this.level.getNearestPlayer(this, 32.0);
-            if (following instanceof Player player&&EntityUtil.isEntityValid(player)) {
-                this.giveSunToTarget(player);
+            PlayerEntity following = this.level.getNearestPlayer(this, 32.0);
+            if (EntityUtil.isEntityValid(following)) {
+                this.giveSunToTarget(following);
             }
         }
     }
-    private void giveSunToTarget(Player player) {
+    private void giveSunToTarget(PlayerEntity player) {
         if (!level.isClientSide) {
             player.getCapability(CapabilityHandler.PLAYER_DATA_CAPABILITY).ifPresent((l) -> {
                 int amount = this.getAmount();
@@ -47,6 +47,5 @@ public class RedSunEntity extends SunEntity {
                 }
             });
         }
-
     }
 }

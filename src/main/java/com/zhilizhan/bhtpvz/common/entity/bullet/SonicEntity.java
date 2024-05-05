@@ -7,24 +7,24 @@ import com.zhilizhan.bhtpvz.client.particle.BHTPvZParticle;
 import com.zhilizhan.bhtpvz.common.damagesource.BHTPvZEntityDamageSource;
 import com.zhilizhan.bhtpvz.common.entity.BHTPvZEntityTypes;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.block.Block;
+import net.minecraft.block.BushBlock;
+import net.minecraft.entity.*;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
+
 
 public class SonicEntity  extends AbstractBulletEntity {
 
-    public SonicEntity(EntityType<?> type, Level worldIn) {
+    public SonicEntity(EntityType<?> type, World worldIn) {
         super(type, worldIn);
     }
 
-    public SonicEntity(Level worldIn, LivingEntity living) {
+    public SonicEntity(World worldIn, LivingEntity living) {
         super(BHTPvZEntityTypes.SONIC.get(), worldIn, living);
     }
 
@@ -32,13 +32,11 @@ public class SonicEntity  extends AbstractBulletEntity {
         return 20;
     }
 
-    public ItemStack getItem() {
-        return null;
-    }
 
-    protected void onImpact(HitResult result) {
-        if (result.getType() == HitResult.Type.ENTITY) {
-            Entity target = ((EntityHitResult)result).getEntity();
+
+    protected void onImpact(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.ENTITY) {
+            Entity target = ((EntityRayTraceResult)result).getEntity();
             if (this.shouldHit(target)) {
                 target.invulnerableTime = 0;
                 this.dealSonicDamage(target);
@@ -57,9 +55,9 @@ public class SonicEntity  extends AbstractBulletEntity {
 
     }
 
-    protected boolean checkLive(HitResult result) {
-        if (result.getType() == HitResult.Type.BLOCK) {
-            Block block = this.level.getBlockState(((BlockHitResult)result).getBlockPos()).getBlock();
+    protected boolean checkLive(RayTraceResult result) {
+        if (result.getType() == RayTraceResult.Type.BLOCK) {
+            Block block = this.level.getBlockState(((BlockRayTraceResult)result).getBlockPos()).getBlock();
             return block instanceof BushBlock;
         } else {
             return true;
@@ -72,16 +70,16 @@ public class SonicEntity  extends AbstractBulletEntity {
         }
     }
     private void dealSonicDamage(Entity target) {
-        if (!this.level.isClientSide && target instanceof LivingEntity living && EntityUtil.isEntityValid(target)) {
+        if (!this.level.isClientSide && EntityUtil.isEntityValid(target)) {
             target.hurt(BHTPvZEntityDamageSource.sonic(this, this.getThrower()), this.attackDamage);
             if (target instanceof LivingEntity && Math.random()<=0.75F) {
-                living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120));
+                ((LivingEntity)target).addEffect(new EffectInstance(Effects.WEAKNESS, 120));
             }
         }
     }
 
-    public EntityDimensions getDimensions(Pose poseIn) {
-        return EntityDimensions.scalable(0.15F, 0.15F);
+    public EntitySize getDimensions(Pose poseIn) {
+        return EntitySize.scalable(0.15F, 0.15F);
     }
 
     protected float getGravityVelocity() {

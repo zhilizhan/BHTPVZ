@@ -1,30 +1,27 @@
 package com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz;
 
 import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
-import com.hungteen.pvz.common.entity.zombie.grass.DancingZombieEntity;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.MathUtil;
 import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.World;
 
 import java.util.EnumSet;
-import java.util.Optional;
 
 public class DancerBackupEntity extends PVZZombieEntity {
-    public static final int DANCE_CD = 100;
-    protected Optional<MJZombieEntity> owner = Optional.empty();
-    private static final int MIN_REST_CD = 60;
-    private static final int MAX_REST_CD = 300;
+
+    protected MJZombieEntity owner;
+
     private int restTick = 0;
 
-    public DancerBackupEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
+    public DancerBackupEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
         this.canCollideWithZombie = false;
     }
@@ -38,13 +35,11 @@ public class DancerBackupEntity extends PVZZombieEntity {
         super.normalZombieTick();
         if (!this.level.isClientSide) {
             this.updateSpeed();
-            if (this.needFollow()) {
-                this.owner.ifPresent((dancer) -> {
-                    this.setAttackTime(dancer.getAttackTime());
-                    this.yRot = dancer.yRot;
-                    this.xRot = dancer.xRot;
-                    this.yHeadRot = dancer.yHeadRot;
-                });
+            if (this.needFollow()&&EntityUtil.isEntityValid(this.owner)) {
+                this.setAttackTime(owner.getAttackTime());
+                this.yRot = owner.yRot;
+                this.xRot = owner.xRot;
+                this.yHeadRot = owner.yHeadRot;
             }
         }
 
@@ -55,11 +50,11 @@ public class DancerBackupEntity extends PVZZombieEntity {
     }
 
     public boolean needFollow() {
-        return this.owner.isPresent() && EntityUtil.isEntityValid((Entity)this.owner.get());
+        return EntityUtil.isEntityValid(this.owner);
     }
 
     public void setDancingOwner(MJZombieEntity dancer) {
-        this.owner = Optional.ofNullable(dancer);
+        this.owner = dancer;
     }
 
     protected void setRestTick() {
@@ -70,7 +65,7 @@ public class DancerBackupEntity extends PVZZombieEntity {
         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getAttackTime() > 0 ? 0.0 : 0.1899999976158142);
     }
 
-    public void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("zombie_rest_tick")) {
             this.restTick = compound.getInt("zombie_rest_tick");
@@ -78,22 +73,20 @@ public class DancerBackupEntity extends PVZZombieEntity {
 
         if (compound.contains("dancing_owner")) {
             Entity entity = this.level.getEntity(compound.getInt("dancing_owner"));
-            if (EntityUtil.isEntityValid(entity) && entity instanceof DancingZombieEntity) {
-                this.owner = Optional.ofNullable((MJZombieEntity)entity);
+            if (EntityUtil.isEntityValid(entity) && entity instanceof MJZombieEntity) {
+                this.owner = (MJZombieEntity)entity;
             }
         }
 
     }
 
-    public void addAdditionalSaveData(CompoundTag compound) {
+    public void addAdditionalSaveData(CompoundNBT compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("zombie_rest_tick", this.restTick);
-        this.owner.ifPresent((dancer) -> {
-            compound.putInt("dancing_owner", dancer.getId());
-        });
+        if(EntityUtil.isEntityValid(this.owner)){
+            compound.putInt("dancing_owner", owner.getId());
+        }
     }
-
-
 
     static class ZombieDanceGoal extends Goal {
         private final DancerBackupEntity dancer;

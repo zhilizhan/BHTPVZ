@@ -9,9 +9,9 @@ import com.hungteen.pvz.client.render.layer.fullskin.HealLightLayer;
 import com.hungteen.pvz.client.render.layer.fullskin.SunLightLayer;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
 import com.zhilizhan.bhtpvz.client.render.layer.SteelPumpkinArmorLayer;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = PVZPlantRender.class,remap = false)
 public abstract class PVZPlantRenderMixin<T extends PVZPlantEntity> extends MobRenderer<T, EntityModel<T>> {
 
-    public PVZPlantRenderMixin(EntityRenderDispatcher arg, EntityModel<T> arg2, float f) {
+    public PVZPlantRenderMixin(EntityRendererManager arg, EntityModel<T> arg2, float f) {
         super(arg, arg2, f);
     }
 

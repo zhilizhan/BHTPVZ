@@ -5,7 +5,7 @@ import com.zhilizhan.bhtpvz.common.entity.bullet.*;
 import com.zhilizhan.bhtpvz.common.entity.bullet.itembullet.*;
 import com.zhilizhan.bhtpvz.common.entity.plant.assist.FodderBushEntity;
 import com.zhilizhan.bhtpvz.common.entity.plant.electric.MagnifyingGrassEntity;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 
 public class BHTPvZEntityDamageSource {
 

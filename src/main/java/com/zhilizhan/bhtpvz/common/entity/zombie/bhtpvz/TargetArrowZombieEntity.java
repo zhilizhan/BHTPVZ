@@ -1,7 +1,5 @@
 package com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz;
 
-import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
-
 import com.hungteen.pvz.common.entity.plant.base.PlantPultEntity;
 import com.hungteen.pvz.common.entity.zombie.base.DefenceZombieEntity;
 import com.hungteen.pvz.common.entity.zombie.body.ZombieDropBodyEntity;
@@ -12,18 +10,18 @@ import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.utils.EffectUtil;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.ZombieUtil;
-
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.level.Level;
+import com.zhilizhan.bhtpvz.common.impl.zombie.BHTPvZZombies;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 
 public class TargetArrowZombieEntity extends DefenceZombieEntity {
-    public TargetArrowZombieEntity(EntityType<? extends PathfinderMob> type, Level level) {
+    public TargetArrowZombieEntity(EntityType<? extends CreatureEntity> type, World level) {
         super(type, level);
     }
 
@@ -49,7 +47,7 @@ public class TargetArrowZombieEntity extends DefenceZombieEntity {
     public void onOuterDefenceBroken() {
         super.onOuterDefenceBroken();
         if(! this.level.isClientSide){
-            this.addEffect(EffectUtil.effect(MobEffects.MOVEMENT_SPEED, 120000, 1));
+            this.addEffect(EffectUtil.effect(Effects.MOVEMENT_SPEED, 120000, 1));
             EntityUtil.playSound(this, SoundRegister.ZOMBIE_ANGRY.get());
         }
     }
