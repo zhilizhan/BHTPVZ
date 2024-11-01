@@ -1,7 +1,7 @@
 package com.zhilizhan.bhtpvz.client.model.entity.zombie.bhtpvz;
 
 import com.hungteen.pvz.client.model.entity.zombie.PVZZombieModel;
-import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.MCZombieEntity;
+import com.zhilizhan.bhtpvz.common.entity.zombie.MCZombieEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
 public class MCZombieModel extends PVZZombieModel<MCZombieEntity> {

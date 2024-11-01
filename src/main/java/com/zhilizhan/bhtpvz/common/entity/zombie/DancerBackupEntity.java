@@ -1,4 +1,4 @@
-package com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz;
+package com.zhilizhan.bhtpvz.common.entity.zombie;
 
 import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;

@@ -18,14 +18,14 @@ import java.util.Objects;
 @Mod.EventBusSubscriber(modid = BHTPvZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SpawnerRegister {
 
-    @SubscribeEvent(priority =  EventPriority.HIGH)
+    @SubscribeEvent
     public static void addSpawn(BiomeLoadingEvent event) {
         RegistryKey<Biome> biomeKey = RegistryKey.create(Registry.BIOME_REGISTRY, Objects.requireNonNull(event.getName()));
         if(biomeKey== BHTPvZBiomes.NIGHT_KEY) {
-            event.getSpawns().addSpawn(EntityClassification.AMBIENT, new MobSpawnInfo.Spawners(BHTPvZEntityTypes.TOXIC_MOOB.get(), 3, 1, 1));
+            event.getSpawns().addSpawn(EntityClassification.CREATURE, new MobSpawnInfo.Spawners(BHTPvZEntityTypes.TOXIC_MOOB.get(), 3, 1, 1));
         }
         if(biomeKey== BHTPvZBiomes.ZEN_GANIGHT_KEY) {
-            event.getSpawns().addSpawn(EntityClassification.AMBIENT, new MobSpawnInfo.Spawners(BHTPvZEntityTypes.ORIGIN_MOOB.get(), 5, 1, 1)); }
+            event.getSpawns().addSpawn(EntityClassification.CREATURE, new MobSpawnInfo.Spawners(BHTPvZEntityTypes.ORIGIN_MOOB.get(), 5, 1, 1)); }
     }
 
 }

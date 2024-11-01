@@ -56,7 +56,7 @@ import com.zhilizhan.bhtpvz.common.entity.plant.ice.ReIcePeaEntity;
 import com.zhilizhan.bhtpvz.common.entity.plant.toxic.GooPeaShooterEntity;
 import com.zhilizhan.bhtpvz.common.entity.plant.toxic.OriginShroomEntity;
 import com.zhilizhan.bhtpvz.common.entity.plant.toxic.SculkShroomEntity;
-import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.*;
+import com.zhilizhan.bhtpvz.common.entity.zombie.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;

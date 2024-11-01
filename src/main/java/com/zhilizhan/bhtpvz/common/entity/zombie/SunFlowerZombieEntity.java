@@ -1,4 +1,4 @@
-package com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz;
+package com.zhilizhan.bhtpvz.common.entity.zombie;
 
 import com.hungteen.pvz.api.interfaces.IAlmanacEntry;
 import com.hungteen.pvz.api.types.IZombieType;

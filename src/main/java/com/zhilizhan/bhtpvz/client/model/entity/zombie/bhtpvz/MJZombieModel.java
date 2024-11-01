@@ -1,7 +1,7 @@
 package com.zhilizhan.bhtpvz.client.model.entity.zombie.bhtpvz;
 
 import com.hungteen.pvz.client.model.entity.zombie.PVZZombieModel;
-import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.MJZombieEntity;
+import com.zhilizhan.bhtpvz.common.entity.zombie.MJZombieEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 

@@ -4,7 +4,7 @@ import com.hungteen.pvz.api.interfaces.IBodyEntity;
 import com.hungteen.pvz.client.model.entity.zombie.PVZZombieModel;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.AirborneZombieEntity;
+import com.zhilizhan.bhtpvz.common.entity.zombie.AirborneZombieEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
 public class AirborneZombieModel extends PVZZombieModel<AirborneZombieEntity> {

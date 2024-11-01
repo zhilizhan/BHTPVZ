@@ -32,12 +32,12 @@ public class BHTPvZFeatures {
 
     //巨型原始蘑菇
     public static final ConfiguredFeature<?, ?> ORGIGIN_MUSHROOM = register(
-            "huge_origin_mushroom",  new HugeOriginMushroomFeature(BigMushroomFeatureConfig.CODEC).configured(new BigMushroomFeatureConfig(new SimpleBlockStateProvider(BHTPvZBlocks.ORIGIN_MUSHROOM_BLOCK.get().defaultBlockState()), new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.defaultBlockState()), 3)));
+            "origin_mushroom",  new HugeOriginMushroomFeature(BigMushroomFeatureConfig.CODEC).configured(new BigMushroomFeatureConfig(new SimpleBlockStateProvider(BHTPvZBlocks.ORIGIN_MUSHROOM_BLOCK.get().defaultBlockState()), new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.defaultBlockState()), 3)));
     public static final ConfiguredFeature<?, ?> HUGE_ORIGIN_MUSHROOM = register("huge_origin_mushroom", Feature.RANDOM_SELECTOR.configured(new MultipleRandomFeatureConfig(ImmutableList.of(ORGIGIN_MUSHROOM.weighted(0.1F)), ORGIGIN_MUSHROOM)).decorated(Features.Placements.HEIGHTMAP_SQUARE));
 
     //巨型PVZ毒蘑菇
     public static final ConfiguredFeature<?, ?> TOXIC_MUSHROOM = register(
-            "huge_toxic_shroom",  new HugeToxicShroomFeature(BigMushroomFeatureConfig.CODEC).configured(new BigMushroomFeatureConfig(new SimpleBlockStateProvider(BHTPvZBlocks.TOXIC_SHROOM_BLOCK.get().defaultBlockState()), new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.defaultBlockState()), 3)));
+            "toxic_shroom",  new HugeToxicShroomFeature(BigMushroomFeatureConfig.CODEC).configured(new BigMushroomFeatureConfig(new SimpleBlockStateProvider(BHTPvZBlocks.TOXIC_SHROOM_BLOCK.get().defaultBlockState()), new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.defaultBlockState()), 3)));
     public static final ConfiguredFeature<?, ?> HUGE_TOXIC_MUSHROOM = register("huge_toxic_shroom", Feature.RANDOM_SELECTOR.configured(new MultipleRandomFeatureConfig(ImmutableList.of(TOXIC_MUSHROOM.weighted(0.1F)), TOXIC_MUSHROOM)).decorated(Features.Placements.HEIGHTMAP_SQUARE));
 
     // 其他生成

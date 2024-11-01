@@ -4,7 +4,7 @@ package com.zhilizhan.bhtpvz.client.model.entity.zombie.bhtpvz;// Made with Bloc
 
 
 import com.hungteen.pvz.client.model.entity.zombie.PVZZombieModel;
-import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.RedEdgeZombieEntity;
+import com.zhilizhan.bhtpvz.common.entity.zombie.RedEdgeZombieEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
 public class RedEdgeZombieModel extends PVZZombieModel<RedEdgeZombieEntity> {

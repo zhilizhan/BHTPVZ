@@ -5,7 +5,7 @@ import com.hungteen.pvz.api.paz.IZombieModel;
 import com.hungteen.pvz.utils.AnimationUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.zhilizhan.bhtpvz.common.entity.zombie.bhtpvz.Edgar090547Entity;
+import com.zhilizhan.bhtpvz.common.entity.zombie.Edgar090547Entity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;

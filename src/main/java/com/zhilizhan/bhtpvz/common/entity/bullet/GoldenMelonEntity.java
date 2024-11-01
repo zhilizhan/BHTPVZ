@@ -29,7 +29,7 @@ public class GoldenMelonEntity  extends PultBulletEntity {
         if(EntityUtil.isEntityValid(target)) target.hurt(BHTPvZEntityDamageSource.goldenMelon(this, this.getThrower()), this.getAttackDamage());
 
         this.attackEntity = target;
-            if(Math.random()<=0.08){
+            if(Math.random()<=0.08 && EntityUtil.isEntityValid(this)){
                 CoinEntity.spawnCoin(this.level, this.blockPosition(), CoinEntity.CoinType.GOLD);
             }
             for(int i = 0; i < 2; ++i) {

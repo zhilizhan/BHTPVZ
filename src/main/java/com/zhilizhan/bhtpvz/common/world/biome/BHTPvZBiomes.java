@@ -43,8 +43,8 @@ public class BHTPvZBiomes {
         BiomeAmbience.Builder effects = new BiomeAmbience.Builder().waterColor(4159204).waterFogColor(2630949).fogColor(2630949).skyColor(2630949).ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS);
         MobSpawnInfo.Builder spawnSettings = new MobSpawnInfo.Builder();
         spawnSettings.setPlayerCanSpawn();
+        spawnSettings.addSpawn(EntityClassification.CREATURE, new MobSpawnInfo.Spawners(BHTPvZEntityTypes.ORIGIN_MOOB.get(), 3, 1, 8));
         spawnSettings.addMobCharge(EntityRegister.GIGA_TOMB_STONE.get(),1,0.01F);//把墓碑Bug扬了
-        spawnSettings.addMobCharge(BHTPvZEntityTypes.ORIGIN_MOOB.get(),5,1);//起源蘑菇牛
         spawnSettings.addSpawn(EntityClassification.CREATURE, new MobSpawnInfo.Spawners(EntityType.MOOSHROOM, 8, 4, 8));
         BiomeGenerationSettings.Builder biomeGenerationSettings = (new BiomeGenerationSettings.Builder()).surfaceBuilder(ConfiguredSurfaceBuilders.MYCELIUM);
         biomeGenerationSettings.addStructureStart(StructureFeatures.STRONGHOLD); //生成末地传送门

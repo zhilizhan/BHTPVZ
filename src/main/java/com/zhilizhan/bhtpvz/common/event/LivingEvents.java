@@ -37,7 +37,7 @@ public class LivingEvents {
 
 	@SubscribeEvent
 	public static void onLivingHurt(LivingHurtEvent event) {
-		if(event.getSource().getEntity() instanceof AbstractPAZEntity &&!(event.getEntity() instanceof AbstractPAZEntity)) {
+		if(event.getSource().getEntity() instanceof AbstractPAZEntity &&!(event.getEntity() instanceof AbstractPAZEntity) && EntityUtil.isEntityValid(event.getEntity())) {
 			if (!(event.getEntityLiving() instanceof PlayerEntity)) {
 				event.setAmount((float) (event.getAmount() * BHTPvZConfig.COMMON_CONFIG.EntitySettings.EntityLiveTick.PVZDamageAmount.get()));
 			}
@@ -45,7 +45,7 @@ public class LivingEvents {
 	}
 	@SubscribeEvent
 	public static void onZombieHurt(LivingHurtEvent event) {
-		if((event.getEntity() instanceof PVZZombieEntity)) {
+		if((event.getEntity() instanceof PVZZombieEntity) && EntityUtil.isEntityValid(event.getEntity())) {
 				event.setAmount((float) (event.getAmount() * BHTPvZConfig.COMMON_CONFIG.EntitySettings.ZombieSetting.ZombieHurtAmount.get()));
 		}
 	}
@@ -54,7 +54,7 @@ public class LivingEvents {
 		DamageSource source = event.getSource();
 		LivingEntity entity = event.getEntityLiving();
 
-		if( source instanceof PVZEntityDamageSource && ((PVZEntityDamageSource)source).isCrushDamage()) {
+		if( source instanceof PVZEntityDamageSource && ((PVZEntityDamageSource)source).isCrushDamage() && EntityUtil.isEntityValid(event.getEntity())) {
 			if(entity instanceof PVZPlantEntity &&!( entity instanceof SpikeWeedEntity) && !((PVZPlantEntity) entity).hasPumpkin()) {
 				((PVZPlantEntity) entity).setNoAi(true);
 			}
